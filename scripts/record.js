@@ -16,8 +16,6 @@ function delete_record(){
 
 
 
-
-
 function receive_record(){
 	var attr = {
 		"state": "get_record_data",
