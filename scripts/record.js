@@ -1,4 +1,4 @@
-/* record table control */
+// delete select record
 function delete_record(){
 	var sel_target = new Array();
 	var del_index = new Array();
@@ -16,9 +16,3 @@ function delete_record(){
 
 
 
-function receive_record(){
-	var attr = {
-		"state": "get_record_data",
-	};
-	receive_to_db( attr );
-}

@@ -5,7 +5,7 @@ function normal_part_number( part_number ){
 	return value;
 };
 		
-		
+
 /* check part number input */
 function check_part_num( func, size, value ){
 	var flag = false;
