@@ -90,6 +90,9 @@ body {
 
 .part_list_style{
 	width: 200px;
+}
+
+.normal_font{
 	font-family: Monospace, Courier New, sans-serif;
 }
 
