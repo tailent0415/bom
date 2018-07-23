@@ -292,8 +292,7 @@
 				func: 1,
 				val: "undefined"
 			};
-			alert( idx );
-			alert( num_param.func );
+
 			rows.push({
 				index: idx,
 				number: num_param,
@@ -417,7 +416,6 @@
 		
 		/* table part number sub function */
 		function edit_partnum( param, row, index ){
-			alert( index );
 			if(param.func == 1){
 				return ("<pre onclick='change_partnum_type_static(" + index + ")'>" + param.val + "</pre>");
 			}
