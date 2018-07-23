@@ -1,8 +1,8 @@
 // receive data for database
-async function receive_to_db(data){
+async function receive_to_db( product_table, ele_id, data){
 	data.id = user_id;
 	try{
-		var response = await receive_promise(data);
+		var response = await receive_promise( product_table, ele_id, data);
 		if( response == true ){
 			console.log( "接收完成" );
 		}
@@ -16,7 +16,7 @@ async function receive_to_db(data){
 }
 
 // receive promise
-function receive_promise(data){
+function receive_promise( product_table, ele_id, data){
 	return new Promise(function (resolve, reject){
 		$.ajax({
 			type: "post",

@@ -1,14 +1,13 @@
 // Init Bomtable interface
-function init_bomtable_interface(){
+function init_bomtable_interface( ele_id ){
 	bom_node_array = [];
 	var cnt = document.getElementById( ele_id );
 	var div_first_obj = document.getElementById( "bom" );
-	console.log( div_first_obj );
 	if( div_first_obj !== null ){
 		remove_bomtable_interface();
 	}
 	div_first_obj = document.createElement( "div" );
-	div_first_obj.id = "bom";
+	div_first_obj.id = "bom"
 	div_first_obj.setAttribute("class", "tab_form");
 	cnt.appendChild(div_first_obj);
 	var div_second_obj = document.createElement( "div" );

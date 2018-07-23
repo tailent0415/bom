@@ -128,7 +128,7 @@
 										<th data-field="totalcost">成本加總</th>
 										<th data-field="supplier">廠商</th>
 										<th data-field="format">規格</th>
-										<th data-field="delrow" data-formatter="delfunc">刪除</th>
+										<th data-field="delrow" data-formatter="formatter_delbtn">刪除</th>
 									</tr>
 								</thead>
 							</table>
@@ -155,7 +155,7 @@
 									<th data-field="totalcost">成本加總</th>
 									<th data-field="supplier">廠商</th>
 									<th data-field="format">規格</th>
-									<th data-field="delrow" data-formatter="delfunc">刪除</th>
+									<th data-field="delrow" data-formatter="formatter_delbtn">刪除</th>
 								</tr>
 							</thead>
 						</table>
@@ -212,14 +212,21 @@
 			</div>
 		</div>
     <script language="JavaScript">
-	
-		var user_id = "";
 		var body = $("body");
 		var product_table = $("#part_table");
 		var ele_id;
+		var user_id = "";
 		var part_list_obj = $("#part_list");
 		var part_list_options = "";
 		var bom_node_array = new Array();
+		var window = {
+			"product_table": product_table,
+			"ele_id": ele_id,
+			"user_id": user_id,
+			"part_list_obj": part_list_obj,
+			"part_list_options": part_list_options,
+			"bom_node_array": bom_node_array
+		}
 		/*loading event*/
 		$(document).on({
 			ajaxStart: function() { body.addClass("loading"); },
@@ -239,13 +246,16 @@
 					case "查詢":
 						product_table = $("#part_table"); 
 						ele_id = "home";
+						test_window();
 						break;
 					case "新增料件":
 						ele_id = "menu1";
+						test_window();
 						break;
 					case "新增材料":
 						product_table = $("#product_table_add"); 
 						ele_id = "menu2";
+						test_window();
 						break;
 					case "修改":
 						product_table = $("#revise_table");
@@ -257,11 +267,12 @@
 						break;
 					case "BOM":
 						ele_id = "menu5";
-						init_bomtable_interface();
+						init_bomtable_interface( ele_id );
 						break;
 					case "紀錄":
 						product_table = $("#record_table");
 						ele_id = "menu6";
+						test_window();
 						receive_record();
 						break;
 					default:
@@ -269,72 +280,10 @@
 			});
 		});
 		
-		
-
-		
-
-	
-	
-		/* addend new row to product table */
-		function append_btn_res( ){
-			var data_attr = new Array();
-			var data_attr = product_table.bootstrapTable("getData",false);
-			product_table.bootstrapTable("append", add_product_part_row(data_attr.length));
-			product_table.bootstrapTable("scrollTo", 'bottom');
-		};
-		
-
-		/* add product part table row */
-		function add_product_part_row(idx){
-			var rows = [];
-			if(part_list_options == ""){
-				alert( "載入緩衝中 請稍後" );
-				return rows;
-			}
-			var num_param ={
-				func: 1,
-				val: "undefined"
-			};
-			
-			rows.push({
-				index: idx,
-				number: num_param,
-				name: "",
-				quantity: "",
-				cost: "",
-				totalcost: "",
-				supplier: "",
-				format: "",
-				delrow: ""
-			});
-			return rows;
+		// table formatter delete button
+		function formatter_delbtn( val, row, index ){
+			return ("<button class='delbtn btn btn-danger glyphicon glyphicon-remove row-remove' onclick='remove_table_row( product_table , " + index + ")'></button>");
 		}
-		
-		
-
-
-		/* remove table row */
-		function remove_table_row( idx ){
-			var attr = product_table.bootstrapTable('getRowByUniqueId', idx );
-			var i = 1;
-			product_table.bootstrapTable('remove', {
-				field: "index",
-				values: Array.of(idx)
-			});
-			while( attr !== null ){
-				replace_index = idx+i-1;
-				product_table.bootstrapTable('updateRow', {
-					index: replace_index,
-					row: {
-						index: replace_index,
-					}
-				});
-				attr = product_table.bootstrapTable('getRowByUniqueId', idx+i+1 );
-				i++;
-			}
-		}
-		
-		
 		
 		/* table part quantity sub function */
 		function edit_quan( param, row, index ){
@@ -362,7 +311,6 @@
 			});	
 		}
 
-		
 		/* calculate total cost and update */	
 		function update_total_cost( idx, val ){
 			var attr = product_table.bootstrapTable('getRowByUniqueId', idx );
@@ -450,41 +398,36 @@
 
 
 		
-		/* table delete sub function */ 
-		function delfunc(val,row,index){
-			return ("<button class='delbtn btn btn-danger glyphicon glyphicon-remove row-remove' onclick='remove_table_row(" + index + ")'></button>");
-		}
+
 		
 		// google login render icon
-function renderButton(){
-	gapi.signin2.render('my-signin2', {
-		'scope': 'profile email',
-		'width': 180,
-		'height': 32,
-		'longtitle': true,
-		'theme': 'dark',
-		'onsuccess': onSuccess,
-		'onfailure': onFailure
-	});
-};
+		function renderButton(){
+			gapi.signin2.render('my-signin2', {
+				'scope': 'profile email',
+				'width': 180,
+				'height': 32,
+				'longtitle': true,
+				'theme': 'dark',
+				'onsuccess': onSuccess,
+				'onfailure': onFailure
+			});
+		};
 
+		// google login event
+		function onSuccess(googleUser){
+			user_email = googleUser.getBasicProfile().getEmail();
+			user_id = user_email.substring( 0, user_email.indexOf("@") );
+			user_name = googleUser.getBasicProfile().getName();
+			console.log('Logged in as: ' + user_email + user_id );
+			document.getElementById("user_title").innerHTML = "Hello"+ " " + user_name;
+			receive_db_info();
+		};
 
-// google login event
-function onSuccess(googleUser){
-	user_email = googleUser.getBasicProfile().getEmail();
-	user_id = user_email.substring( 0, user_email.indexOf("@") );
-	user_name = googleUser.getBasicProfile().getName();
-	console.log('Logged in as: ' + user_email + user_id );
-	document.getElementById("user_title").innerHTML = "Hello"+ " " + user_name;
-	receive_db_info();
-};
-
-
-// google login failure report
-function onFailure(error){
-	alert(error);
-};
-
+		// google login failure report
+		function onFailure(error){
+			alert(error);
+		};
+		
 		
     </script>
 	<script type="text/javascript" src="/scripts/bom_table.js"></script>
@@ -495,6 +438,8 @@ function onFailure(error){
 	<script type="text/javascript" src="/scripts/revise.js"></script>
 	<script type="text/javascript" src="/scripts/receive.js"></script>
 	<script type="text/javascript" src="/scripts/send.js"></script>
+	<script type="text/javascript" src="/scripts/table_row_ctrl.js"></script>
+	<script type="text/javascript" src="/scripts/test.js"></script>
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
   </body>
 </html>
