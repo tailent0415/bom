@@ -454,8 +454,21 @@
 		function delfunc(val,row,index){
 			return ("<button class='delbtn btn btn-danger glyphicon glyphicon-remove row-remove' onclick='remove_table_row(" + index + ")'></button>");
 		}
-
-
+		
+		
+		// google login render icon
+		function renderButton(){
+			gapi.signin2.render('my-signin2', {
+				'scope': 'profile email',
+				'width': 180,
+				'height': 32,
+				'longtitle': true,
+				'theme': 'dark',
+				'onsuccess': onSuccess,
+				'onfailure': onFailure
+			});
+		};
+		
     </script>
 	<script type="text/javascript" src="/scripts/bom_table.js"></script>
 	<script type="text/javascript" src="/scripts/database.js"></script>
