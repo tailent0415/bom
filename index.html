@@ -582,8 +582,8 @@
 					case "2":
 						data_str += '<br><label for="part_remark_in">備註 : </label>';
 						data_str += '<br><textarea id="part_remark_in" class="part_attr" name="part_remark" rows="5" cols="50" wrap="hard" ></textarea>';
-						data_str += '<br><div class="col-xs-2" style="margin-top:5px;margin-bottom:5px"><button type="button" class="col-xs-12 btn btn-primary" onclick="append_btn_res()" >Add Item</button></div>';
-						data_str += '<div class="col-xs-2" style="margin-top:5px;margin-bottom:5px" ><button type="button" class="col-xs-12 btn btn-primary" onclick="send_revise_product()" >Upload</button></div>';
+						data_str += '<br><div class="col-xs-2" style="margin-top:5px;margin-bottom:5px"><button type="button" class="col-xs-12 btn btn-primary" onclick="append_btn_res()" >新增</button></div>';
+						data_str += '<div class="col-xs-2" style="margin-top:5px;margin-bottom:5px" ><button type="button" class="col-xs-12 btn btn-primary" onclick="send_revise_product()" >上傳</button></div>';
 						data_str += '<div class="col-xs-8 align_right"><label for="part_totalcost_out">總成本 :</label><input type=text id="part_totalcost_out" class="part_attr input_container" style="width:200px;margin-top:15px" name="part_totalcost" disabled="true" ></div>';
 						div_second_obj.innerHTML = data_str;
 						div_first_obj.appendChild(div_second_obj);
@@ -847,7 +847,7 @@
 												break;
 											case '2':
 												data_str += '<label for="part_cost_out">總成本 :</label><input id="part_cost_out" class="input_container normal_font" style="width:100px" disabled="true" value="' + response.cost + '" />';
-												data_str += '<br><label for="part_remark_out">備註 :</label><br><textarea id="part_remark_out" class="normal_font" rows="5" cols="50" wrap="hard" disabled="true" />' + response.remark + '</textarea>';
+												data_str += '<br><label for="part_remark_out">備註 :</label><br><textarea id="part_remark_out" class="input_container normal_font" rows="5" cols="50" wrap="hard" disabled="true" />' + response.remark + '</textarea>';
 												table_title = [ '料號', '名稱', '成本', '數量', '廠商', '規格', '庫存'  ];
 												break;
 											case '3':
@@ -990,7 +990,7 @@
 										}
 										break;
 									case "revise_part_data":
-										console.log( response );
+										alert( response );
 										var cnt = document.getElementById( ele_id );
 										var var_val = cnt.getElementsByClassName("part_attr");
 										for (var i=0; i<var_val.length; i++){
