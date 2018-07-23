@@ -287,11 +287,13 @@
 		// add product part table row
 		function add_product_part_row( idx ){
 			var rows = [];
+			
 			var num_param ={
 				func: 1,
 				val: "undefined"
 			};
-			
+			alert( idx );
+			alert( num_param.func );
 			rows.push({
 				index: idx,
 				number: num_param,
@@ -304,8 +306,9 @@
 				delrow: ""
 			});
 			return rows;
-		}
-
+		}		
+		
+		
 		// remove table row
 		function remove_table_row( product_table, idx, sort_bool ){
 			var attr = product_table.bootstrapTable('getRowByUniqueId', idx );
@@ -414,6 +417,7 @@
 		
 		/* table part number sub function */
 		function edit_partnum( param, row, index ){
+			alert( index );
 			if(param.func == 1){
 				return ("<pre onclick='change_partnum_type_static(" + index + ")'>" + param.val + "</pre>");
 			}
@@ -839,14 +843,14 @@
 										data_str += '<a onclick="bomtable_go_page(' + (data.index+1) + ')"><i class="fa fa-arrow-circle-right fa-2x"></i></a>';
 										switch ( data.number[0] ){
 											case '1':
-												data_str += '<br><label for="part_cost_out">總成本 :</label><input id="part_cost_out" class="normal_font" style="width:100px" disabled="true" value="' + response.cost + '" />';
+												data_str += '<br><label for="part_cost_out">總成本 :</label><input id="part_cost_out" class="input_container normal_font" style="width:100px" disabled="true" value="' + response.cost + '" />';
 												data_str += '<br><label for="part_name_out">品名 :</label>';
 												data_str += '<br><textarea id="part_name_out" class="part_attr normal_font" name="part_name" rows="2" cols="50" wrap="hard" disabled="true" >' + response.name + '</textarea>';
 												data_str += '<br><label for="part_remark_out">備註 : </label><br><textarea id="part_remark_out" class="normal_font" rows="5" cols="50" wrap="hard" disabled="true" />' + response.remark + '</textarea>';
 												table_title = [ '料號', '名稱', '成本', '數量', '備註', 'Sunny註解', '庫存' ];
 												break;
 											case '2':
-												data_str += '<br><label for="part_cost_out">總成本 :</label><input id="part_cost_out" class="normal_font" style="width:100px" disabled="true" value="' + response.cost + '" />';
+												data_str += '<br><label for="part_cost_out">總成本 :</label><input id="part_cost_out" class="input_container normal_font" style="width:100px" disabled="true" value="' + response.cost + '" />';
 												data_str += '<br><label for="part_name_out">品名 :</label>';
 												data_str += '<br><textarea id="part_name_out" class="part_attr normal_font" name="part_name" rows="2" cols="50" wrap="hard" disabled="true" >' + response.name + '</textarea>';
 												data_str += '<br><label for="part_remark_out">備註 :</label><br><textarea id="part_remark_out" class="normal_font" rows="5" cols="50" wrap="hard" disabled="true" />' + response.remark + '</textarea>';
