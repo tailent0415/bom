@@ -459,12 +459,11 @@
 				var data = product_table.bootstrapTable( 'getData', false );
 				var same_check = true;
 				for (var i=0; i<data.length; i++){
-					if( data[i].number == source_val ){
+					if( data[i].number.val == source_val ){
 						same_check = false;
 						break;
 					}
-					alert( data[i].number );
-					alert( JSON.stringify( data[i].number ) );
+					alert( data[i].number.val );
 				}
 				
 				if(same_check){
