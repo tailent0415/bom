@@ -277,7 +277,7 @@
 		
 		
 		// addend new row to product table
-		function append_btn_res( product_table ){
+		function append_btn_res(){
 			var data_attr = new Array();
 			var data_attr = product_table.bootstrapTable("getData",false);
 			product_table.bootstrapTable("append", add_product_part_row(data_attr.length));
@@ -310,7 +310,7 @@
 		
 		
 		// remove table row
-		function remove_table_row( product_table, idx, sort_bool ){
+		function remove_table_row( idx, sort_bool ){
 			var attr = product_table.bootstrapTable('getRowByUniqueId', idx );
 			product_table.bootstrapTable('remove', {
 				field: "index",
@@ -341,7 +341,7 @@
 				
 		// table formatter delete button
 		function formatter_delbtn( val, row, index ){
-			return ("<button class='delbtn btn btn-danger glyphicon glyphicon-remove row-remove' onclick='remove_table_row( product_table , " + index + ", true)'></button>");
+			return ("<button class='delbtn btn btn-danger glyphicon glyphicon-remove row-remove' onclick='remove_table_row(" + index + ", true)'></button>");
 		}
 		
 		
