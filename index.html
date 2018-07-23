@@ -410,7 +410,6 @@
 		/* table part number sub function */
 		function edit_partnum( param, row, index ){
 			if(param.func == 1){
-				alert( param.val );
 				return ("<pre onclick='change_partnum_type_static(" + index + ")'>" + param.val + "</pre>");
 			}
 			else if(param.func == 2){
@@ -464,8 +463,8 @@
 						break;
 					}
 				}
-				
 				if(same_check){
+					alert( "true" );
 					receive_product_param( idx, source_val );
 					return;
 				}
@@ -474,8 +473,12 @@
 				}
 			}
 			var num_param ={
-				"func": 1,
-				"val": "undefined"
+				func: 1,
+				val: "undefined"
+			};
+			var quan_param ={
+				func: 1,
+				val: 0
 			};
 			product_table.bootstrapTable('updateRow', {
 				index: idx,
@@ -483,7 +486,7 @@
 					index: idx,
 					number: num_param,
 					name: "",
-					quantity: 0,
+					quantity: quan_param,
 					cost: "",
 					supplier: "",
 					format: ""
