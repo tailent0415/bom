@@ -246,16 +246,13 @@
 					case "查詢":
 						product_table = $("#part_table"); 
 						ele_id = "home";
-						test_window();
 						break;
 					case "新增料件":
 						ele_id = "menu1";
-						test_window();
 						break;
 					case "新增材料":
 						product_table = $("#product_table_add"); 
 						ele_id = "menu2";
-						test_window();
 						break;
 					case "修改":
 						product_table = $("#revise_table");
@@ -272,7 +269,6 @@
 					case "紀錄":
 						product_table = $("#record_table");
 						ele_id = "menu6";
-						test_window();
 						receive_record();
 						break;
 					default:
@@ -428,6 +424,7 @@
 			alert(error);
 		};
 		
+		
     </script>
 	<script type="text/javascript" src="/scripts/bom_table.js"></script>
 	<script type="text/javascript" src="/scripts/database.js"></script>
@@ -438,7 +435,6 @@
 	<script type="text/javascript" src="/scripts/receive.js"></script>
 	<script type="text/javascript" src="/scripts/send.js"></script>
 	<script type="text/javascript" src="/scripts/table_row_ctrl.js"></script>
-	<script type="text/javascript" src="/scripts/test.js"></script>
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
   </body>
 </html>

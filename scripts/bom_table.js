@@ -1,7 +1,7 @@
 // Init Bomtable interface
-function init_bomtable_interface( ele_id ){
-	bom_node_array = [];
-	var cnt = document.getElementById( ele_id );
+function init_bomtable_interface( ){
+	window.bom_node_array = [];
+	var cnt = document.getElementById( window.ele_id );
 	var div_first_obj = document.getElementById( "bom" );
 	if( div_first_obj !== null ){
 		remove_bomtable_interface();
@@ -22,8 +22,8 @@ function init_bomtable_interface( ele_id ){
 function update_bomtable_type( num_value, data_ind ){
 	if( check_part_num( 0, 15, normal_part_number( num_value ) ) ){
 		if( data_ind == -1 ){
-			bom_node_array[ bom_node_array.length ] = num_value;
-			data_ind = bom_node_array.length-1;
+			window.bom_node_array[ window.bom_node_array.length ] = num_value;
+			data_ind = window.bom_node_array.length-1;
 		};
 		
 		var attr = {
@@ -52,9 +52,9 @@ function remove_bomtable_interface(){
 
 // Bomtable Page
 function bomtable_go_page( data_ind ){
-	if( data_ind<0 || data_ind>=bom_node_array.length ){
+	if( data_ind<0 || data_ind>=window.bom_node_array.length ){
 		return;
 	}
-	num_value = bom_node_array[ data_ind ];
+	num_value = window.bom_node_array[ data_ind ];
 	update_bomtable_type( num_value, data_ind );
 }
