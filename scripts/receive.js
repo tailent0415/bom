@@ -19,7 +19,7 @@ function receive_db_partlist(){
 
 // receive database part infomation , and update interface
 function receive_part_info( source_str, part_num ){
-	if( check_part_num( 0, 15, normal_part_number( part_num ) ), false ){
+	if( check_part_num( 0, 15, normal_part_number( part_num ) ) ){
 		var attr = {
 			"state": "get_single_data",
 			"number": part_num,

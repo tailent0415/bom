@@ -6,7 +6,7 @@ function get_doc_part_attr( part_obj ){
 		param_value = part_obj[i].value;
 			switch(part_obj[i].name){
 				case "part_num_list":
-					if( check_part_num( 0, 15, normal_part_number( param_value )  ) ) {
+					if( check_part_num( 0, 15, normal_part_number( param_value ) ) ) {
 						attr.number = param_value;
 					}
 					else{
