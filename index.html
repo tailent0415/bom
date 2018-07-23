@@ -310,21 +310,13 @@
 		
 		// remove table row
 		function remove_table_row( idx, sort_bool ){
-			
 			var attr = product_table.bootstrapTable('getRowByUniqueId', idx );
+			var i = 1;
 			product_table.bootstrapTable('remove', {
 				field: "index",
 				values: Array.of(idx)
 			});
-			if ( sort_bool ){
-				sort_table_index( attr );
-			}
-		}
-
-		// sort table index
-		function sort_table_index( attr ){
-			alert(attr);
-			var i = 1;
+			
 			while( attr !== null ){
 				replace_index = idx+i-1;
 				product_table.bootstrapTable('updateRow', {
@@ -337,9 +329,8 @@
 				i++;
 			}
 		}
-				
 
-				
+
 		// table formatter delete button
 		function formatter_delbtn( val, row, index ){
 			return ("<button class='delbtn btn btn-danger glyphicon glyphicon-remove row-remove' onclick='remove_table_row(" + index + ", true)'></button>");
