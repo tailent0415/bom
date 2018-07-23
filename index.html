@@ -489,22 +489,25 @@
 					alert( "請勿輸入相同品號" );
 				}
 			}
-			var num_param ={
-				func: 1,
-				val: "undefined"
-			};
-			product_table.bootstrapTable('updateRow', {
-				index: idx,
-				row: {
+			else{
+				var num_param ={
+					func: 1,
+					val: "undefined"
+				};
+				product_table.bootstrapTable('updateRow', {
 					index: idx,
-					number: num_param,
-					name: "",
-					quantity: 0,
-					cost: "",
-					supplier: "",
-					format: ""
-				}
-			});
+					row: {
+						index: idx,
+						number: num_param,
+						name: "",
+						quantity: 0,
+						cost: "",
+						supplier: "",
+						format: ""
+					}
+				});
+			}
+
 		}
 		
 		
