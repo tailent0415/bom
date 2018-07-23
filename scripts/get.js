@@ -1,4 +1,4 @@
-/* get part attributes */
+// get part attributes
 function get_doc_part_attr( part_obj ){
 	var attr={};
 	var param_value = "";
@@ -59,4 +59,11 @@ function get_doc_part_attr( part_obj ){
 
 	}
 	return attr;
+}
+
+
+// get json array
+function get_json_array( data_array ){
+	json_array = JSON.stringify( data_array );
+	return json_array
 }
