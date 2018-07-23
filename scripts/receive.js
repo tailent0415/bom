@@ -33,15 +33,15 @@ function receive_part_info( source_str, part_num ){
 
 // receive product parameter to table row
 function receive_product_param( idx, val ){
-	if( check_part_num( 0, 15, normal_part_number( val ) ) ){
-		var attr = {
-			"state": "get_single_data",
-			"func": "product",
-			"number": val,
-			"index": idx
-		};
-		receive_to_db(attr);
-	}
+	
+	var attr = {
+		"state": "get_single_data",
+		"func": "product",
+		"number": val,
+		"index": idx
+	};
+	receive_to_db(attr);
+
 }
 
 

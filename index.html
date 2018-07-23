@@ -413,7 +413,7 @@
 				return ("<pre onclick='change_partnum_type_static(" + index + ")'>" + param.val + "</pre>");
 			}
 			else if(param.func == 2){
-				return ("<input list='part_list' class='part_list_style normal_font' onchange='receive_product_param(" + index + ",this.value)' onblur='change_partnum_type_dynamic(" + index + ",this.value)' value=" + param.val + " ><datalist>" + part_list_options + "</datalist>");
+				return ("<input list='part_list' class='part_list_style normal_font' onchange='change_partnum_value(" + index + ",this.value)' onblur='change_partnum_type_dynamic(" + index + ",this.value)' value=" + param.val + " ><datalist>" + part_list_options + "</datalist>");
 			}
 		}
 		
@@ -438,6 +438,10 @@
 		}
 		
 		function change_partnum_type_dynamic( idx, source_val ){
+			if( check_part_num( 0, 15, normal_part_number( val ) ) == false ){
+				source_val = undefined;
+
+			}
 			var num_param ={
 				func: 1,
 				val: source_val
@@ -450,7 +454,43 @@
 			});
 		}
 
-
+		function change_partnum_value( idx, source_val ){
+			
+			if( check_part_num( 0, 15, normal_part_number( val ) ) ){
+				var data = product_table.bootstrapTable( 'getData', false );
+				var same_check = true;
+				for (var i=0; i<data.length; i++){
+					if( data[i].number == val ){
+						same_check = false;
+						break;
+					}
+				}
+				if(same_check){
+					receive_product_param( idx, source_val );
+					return;
+				}
+				else{
+					alert( "請勿輸入相同品號" );
+				}
+			}
+			
+			var num_param ={
+				func: 1,
+				val: undefined
+			};
+			product_table.bootstrapTable('updateRow', {
+				index: idx,
+				row: {
+					index: idx,
+					number: num_param,
+					name: "",
+					quantity: 0,
+					cost: "",
+					supplier: "",
+					format: ""
+				}
+			});
+		}
 		
 		
 		
@@ -488,10 +528,14 @@
 					"index": data_ind
 				};
 				
-				receive_to_db( attr );
+				var flag_bool = receive_to_db( attr );
+				if( flag_bool == false ){
+					init_bomtable_interface();
+				}
+
 			}
 			else{
-				init_bomtable_interface()
+				init_bomtable_interface();
 			}
 
 		}
@@ -655,7 +699,7 @@
 				var attr = get_doc_part_attr( part_attr );
 				if (attr !== false){
 					var data_str = "";
-					var data = product_table.bootstrapTable('getData');
+					var data = product_table.bootstrapTable('getData', false );
 					for( var i=0; i<data.length; i++ ){
 						data_str += "index=" + i + "&number=" + data[i].number.val + "&quantity=" + data[i].quantity.val + ";";
 					}
@@ -679,7 +723,7 @@
 				var attr = get_doc_part_attr( part_attr );
 				if (attr !== false){
 					var data_str = "";
-					var data = product_table.bootstrapTable('getData');
+					var data = product_table.bootstrapTable('getData', false );
 					for( var i=0; i<data.length; i++ ){
 						data_str += "index=" + i + "&number=" + data[i].number.val + "&quantity=" + data[i].quantity.val + ";";
 					}
@@ -766,13 +810,16 @@
 				var response = await receive_promise( data);
 				if( response == true ){
 					console.log( "接收完成" );
+					return true;
 				}
 				else{
 					alert( response )
+					return false;
 				}
 			}
 			catch(e){
 				alert( "資料庫錯誤:" + e  );
+				return false;
 			}
 		}
 		
