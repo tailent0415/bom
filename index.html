@@ -458,12 +458,15 @@
 			if( check_part_num( 0, 15, normal_part_number( source_val ) ) ){
 				var data = product_table.bootstrapTable( 'getData', false );
 				var same_check = true;
+				var data_array = new Array();
 				for (var i=0; i<data.length; i++){
 					if( data[i].number == source_val ){
 						same_check = false;
 						break;
 					}
+					data_array = data[i].number;
 				}
+				alert( data_array );
 				if(same_check){
 					receive_product_param( idx, source_val );
 					return;
