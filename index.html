@@ -173,7 +173,7 @@
 							<label for="part_num_in">品號 :</label><input id="part_num_in" class="part_attr input_container part_list_style normal_font" name="part_num_list" list="part_list" onchange="receive_part_info('quantity', this.value )" />
 							<br><label for="part_inventory_out">庫存 :</label><input id="part_inventory_out" class="part_attr input_container normal_font" name="inventory" type="number" style="width:100px" disabled="true" value="0" />
 							<br><label for="part_variable_in">變量 :</label><input id="part_variable_in" class="part_attr input_container normal_font" name="part_varval" type="number" style="width:100px" value="0" />
-							<br><label for="part_location_in">位置 :</label><input id="part_location_in" class="part_attr input_container normal_font" name="part_location" type="text" style="width:200px" placeholder="湖口" />
+							<br><label for="part_location_in">位置 :</label><input id="part_location_in" class="part_attr input_container normal_font" name="part_location" type="text" style="width:100px" placeholder="湖口" />
 							<br><label for="part_goal_in">目的 : </label>
 							<br><textarea id="part_goal_in" class="part_attr normal_font" name="part_goal" rows="5" cols="50" wrap="hard" ></textarea>
 							<br><button type="button" class="btn btn-primary btn_field" onclick="send_inventory_quantity('add')">入庫</button>
@@ -839,7 +839,6 @@
 										data_str += '<a onclick="bomtable_go_page(' + (data.index+1) + ')"><i class="fa fa-arrow-circle-right fa-2x"></i></a>';
 										data_str += '<br><label for="part_name_out">品名 :</label>';
 										data_str += '<br><textarea id="part_name_out" class="part_attr normal_font" name="part_name" rows="2" cols="60" wrap="hard" disabled="true" >' + response.name + '</textarea>';
-										data_str += '<label for="part_stock_out">庫存 :</label><input id="part_stock_out" class="input_container" style="width:60px" disabled="true" value="' + response.stock_quantity + '" />';		
 										switch ( data.number[0] ){
 											case '1':
 												data_str += '<label for="part_cost_out">總成本 :</label><input id="part_cost_out" class="input_container" style="width:100px" disabled="true" value="' + response.cost + '" />';
@@ -863,6 +862,7 @@
 												resolve( "input error" );
 												return;
 										}
+										data_str += '<label for="part_stock_out">庫存 :</label><input id="part_stock_out" class="input_container" style="width:60px" disabled="true" value="' + response.stock_quantity + '" />';
 										div_second_obj.innerHTML = data_str;
 										div_first_obj.appendChild(div_second_obj);
 										var title_len = table_title.length;
