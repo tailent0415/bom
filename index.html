@@ -837,20 +837,24 @@
 										data_str += '<label for="part_num_in">品號 :</label><input id="part_num_in" class="input_container part_list_style normal_font" name="part_num_list" list="part_list" value="' + data.number + '" onchange="update_bomtable_type( this.value, -1 )"/>';
 										data_str += '<a onclick="bomtable_go_page(' + (data.index-1) + ')"><i class="fa fa-arrow-circle-left fa-2x fa-fw"></i></a>';
 										data_str += '<a onclick="bomtable_go_page(' + (data.index+1) + ')"><i class="fa fa-arrow-circle-right fa-2x"></i></a>';
-										data_str += '<br><label for="part_name_out">品名 :</label>';
-										data_str += '<br><textarea id="part_name_out" class="part_attr normal_font" name="part_name" rows="2" cols="60" wrap="hard" disabled="true" >' + response.name + '</textarea>';
 										switch ( data.number[0] ){
 											case '1':
-												data_str += '<label for="part_cost_out">總成本 :</label><input id="part_cost_out" class="input_container normal_font" style="width:100px" disabled="true" value="' + response.cost + '" />';
+												data_str += '<label for="part_cost_out">總成本 :</label><input id="part_cost_out" class="normal_font" style="width:100px" disabled="true" value="' + response.cost + '" />';
+												data_str += '<br><label for="part_name_out">品名 :</label>';
+												data_str += '<br><textarea id="part_name_out" class="part_attr normal_font" name="part_name" rows="2" cols="60" wrap="hard" disabled="true" >' + response.name + '</textarea>';
 												data_str += '<br><label for="part_remark_out">備註 : </label><br><textarea id="part_remark_out" class="normal_font" rows="5" cols="50" wrap="hard" disabled="true" />' + response.remark + '</textarea>';
 												table_title = [ '料號', '名稱', '成本', '數量', '備註', 'Sunny註解', '庫存' ];
 												break;
 											case '2':
-												data_str += '<label for="part_cost_out">總成本 :</label><input id="part_cost_out" class="input_container normal_font" style="width:100px" disabled="true" value="' + response.cost + '" />';
-												data_str += '<br><label for="part_remark_out">備註 :</label><br><textarea id="part_remark_out" class="input_container normal_font" rows="5" cols="50" wrap="hard" disabled="true" />' + response.remark + '</textarea>';
+												data_str += '<label for="part_cost_out">總成本 :</label><input id="part_cost_out" class="normal_font" style="width:100px" disabled="true" value="' + response.cost + '" />';
+												data_str += '<br><label for="part_name_out">品名 :</label>';
+												data_str += '<br><textarea id="part_name_out" class="part_attr normal_font" name="part_name" rows="2" cols="60" wrap="hard" disabled="true" >' + response.name + '</textarea>';
+												data_str += '<br><label for="part_remark_out">備註 :</label><br><textarea id="part_remark_out" class="normal_font" rows="5" cols="50" wrap="hard" disabled="true" />' + response.remark + '</textarea>';
 												table_title = [ '料號', '名稱', '成本', '數量', '廠商', '規格', '庫存'  ];
 												break;
 											case '3':
+												data_str += '<br><label for="part_name_out">品名 :</label>';
+												data_str += '<br><textarea id="part_name_out" class="part_attr normal_font" name="part_name" rows="2" cols="60" wrap="hard" disabled="true" >' + response.name + '</textarea>';
 												data_str += '<br><label for="part_format_out">規格 :</label>';
 												data_str += '<br><textarea id="part_format_out" class="part_attr normal_font" name="part_format" rows="2" cols="60" wrap="hard" disabled="true">' + response.format + '</textarea>'
 												data_str += '<br><label for="part_supplier_out">廠商 :</label><input id="part_supplier_out" class="input_container normal_font" style="width:100px" disabled="true" value="' + response.supplier + '" />';
