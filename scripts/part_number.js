@@ -7,18 +7,18 @@ function normal_part_number( part_number ){
 		
 
 /* check part number input */
-function check_part_num( func, size, value ){
+function check_part_num( func, size, value, show_err ){
 	var flag = false;
 	var re;
 	value = value.toUpperCase();
 	switch(func){
-		case 0: /*full check*/
+		case 0: // full check
 			if( value.length == size){
 				re = /[1-3]{1}[A-Z]{2}[A-Z]{3}[A-Z]{3}[0-9]{3}[0-9]{3}/;
 				flag = true;
 			}
 			break;
-		case 1: /*number check*/
+		case 1: // number check
 			if( value.length == size){
 				switch(size){
 					case 1:
@@ -37,7 +37,7 @@ function check_part_num( func, size, value ){
 				}
 			}
 			break;
-		case 2: /*string check*/
+		case 2: // string check
 			if( value.length == size){
 				switch(size){
 					case 1:
@@ -56,7 +56,7 @@ function check_part_num( func, size, value ){
 				}
 			}
 			break;
-		case 3: /*number check*/
+		case 3: // number check
 			if( value.length == size){
 				re = /[1-3]{1}/;
 				flag = true;
@@ -67,13 +67,17 @@ function check_part_num( func, size, value ){
 
 	if(flag){
 		if( value.search(re) < 0 ){
-			alert( "Input Error" );
+			if(show_err){
+				alert("輸入錯誤");
+			}
 			return false;
 		}
 		return true;
 	}
 	else{
-		alert( "Input Error" );
+		if(show_err){
+			alert("輸入錯誤");
+		}
 		return false;
 	}
 	
