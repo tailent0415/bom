@@ -309,7 +309,7 @@
 		
 		
 		// remove table row
-		function remove_table_row( idx, sort_bool ){
+		function remove_table_row( idx ){
 			var attr = product_table.bootstrapTable('getRowByUniqueId', idx );
 			var i = 1;
 			product_table.bootstrapTable('remove', {
@@ -333,7 +333,7 @@
 
 		// table formatter delete button
 		function formatter_delbtn( val, row, index ){
-			return ("<button class='delbtn btn btn-danger glyphicon glyphicon-remove row-remove' onclick='remove_table_row(" + index + ", true)'></button>");
+			return ("<button class='delbtn btn btn-danger glyphicon glyphicon-remove row-remove' onclick='remove_table_row(" + index + ")'></button>");
 		}
 		
 		
@@ -464,34 +464,14 @@
 					}
 				}
 				if(same_check){
-					alert( "true" );
 					receive_product_param( idx, source_val );
 					return;
 				}
 				else{
 					alert( "請勿輸入相同品號" );
+					remove_table_row( idx );
 				}
 			}
-			var num_param ={
-				func: 1,
-				val: "undefined"
-			};
-			var quan_param ={
-				func: 1,
-				val: 0
-			};
-			product_table.bootstrapTable('updateRow', {
-				index: idx,
-				row: {
-					index: idx,
-					number: num_param,
-					name: "",
-					quantity: quan_param,
-					cost: "",
-					supplier: "",
-					format: ""
-				}
-			});
 		}
 		
 		
