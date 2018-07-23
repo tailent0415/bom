@@ -289,8 +289,8 @@
 			var rows = [];
 			
 			var num_param ={
-				func: 1,
-				val: "undefined"
+				"func": 1,
+				"val": "undefined"
 			};
 
 			rows.push({
@@ -410,6 +410,7 @@
 		/* table part number sub function */
 		function edit_partnum( param, row, index ){
 			if(param.func == 1){
+				alert( param.val );
 				return ("<pre onclick='change_partnum_type_static(" + index + ")'>" + param.val + "</pre>");
 			}
 			else if(param.func == 2){
@@ -469,45 +470,25 @@
 					return;
 				}
 				else{
-					var num_param ={
-						func: 1,
-						val: "undefined"
-					};
-					product_table.bootstrapTable('updateRow', {
-						index: idx,
-						row: {
-							index: idx,
-							number: num_param,
-							name: "",
-							quantity: 0,
-							cost: "",
-							supplier: "",
-							format: ""
-						}
-					});
-					alert( num_param.val );
 					alert( "請勿輸入相同品號" );
 				}
 			}
-			else{
-				var num_param ={
-					func: 1,
-					val: "undefined"
-				};
-				product_table.bootstrapTable('updateRow', {
+			var num_param ={
+				"func": 1,
+				"val": "undefined"
+			};
+			product_table.bootstrapTable('updateRow', {
+				index: idx,
+				row: {
 					index: idx,
-					row: {
-						index: idx,
-						number: num_param,
-						name: "",
-						quantity: 0,
-						cost: "",
-						supplier: "",
-						format: ""
-					}
-				});
-			}
-
+					number: num_param,
+					name: "",
+					quantity: 0,
+					cost: "",
+					supplier: "",
+					format: ""
+				}
+			});
 		}
 		
 		
