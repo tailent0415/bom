@@ -1,3 +1,7 @@
 function test_window(){
-	alert( window.ele_id )
+for(let i=0;i<10;i++){
+  setTimeout(function(){
+	alert(i)
+  },0)
+}
 }
