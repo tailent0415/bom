@@ -310,6 +310,7 @@
 		
 		// remove table row
 		function remove_table_row( idx, sort_bool ){
+			alert( sort_bool );
 			var attr = product_table.bootstrapTable('getRowByUniqueId', idx );
 			product_table.bootstrapTable('remove', {
 				field: "index",
