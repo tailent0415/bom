@@ -120,7 +120,7 @@
 								<button type="button" class="col-xs-12 btn btn-primary" onclick='send_new_product()' >上傳</button>
 							</div>
 							<div class="col-xs-8 align_right">
-								<label for="part_totalcost_out">總成本 :</label><input type=text id="part_totalcost_out" class="part_attr input_container normal_font" style="width:200px;margin-top:15px" name="part_totalcost" disabled="true" >
+								<label for="part_totalcost_out">總成本 :</label><input type=text id="part_totalcost_out" class="part_attr input_container normal_font" style="width:200px;margin-top:15px" name="part_totalcost" disabled="true" value="0" >
 							</div>
 							<table id="product_table_add"
 								data-toggle="table"
@@ -631,7 +631,7 @@
 						data_str += '<br><textarea id="part_remark_in" class="part_attr" name="part_remark" rows="5" cols="50" wrap="hard" ></textarea>';
 						data_str += '<br><div class="col-xs-2" style="margin-top:5px;margin-bottom:5px"><button type="button" class="col-xs-12 btn btn-primary" onclick="append_btn_res()" >新增</button></div>';
 						data_str += '<div class="col-xs-2" style="margin-top:5px;margin-bottom:5px" ><button type="button" class="col-xs-12 btn btn-primary" onclick="send_revise_product()" >上傳</button></div>';
-						data_str += '<div class="col-xs-8 align_right"><label for="part_totalcost_out">總成本 :</label><input type=text id="part_totalcost_out" class="part_attr input_container" style="width:200px;margin-top:15px" name="part_totalcost" disabled="true" ></div>';
+						data_str += '<div class="col-xs-8 align_right"><label for="part_totalcost_out">總成本 :</label><input type=text id="part_totalcost_out" class="part_attr input_container" style="width:200px;margin-top:15px" name="part_totalcost" disabled="true" value="0"></div>';
 						div_second_obj.innerHTML = data_str;
 						div_first_obj.appendChild(div_second_obj);
 						div_first_obj.after( revise_table_obj );
