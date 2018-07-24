@@ -359,11 +359,11 @@
 				return ("<p onclick='change_quan_input(" + index + "," + param.val + ")'>" + param.val + "</p>");
 			}
 			else if(param.func == 2){
-				return ("<input type='number' size='3' onchange='update_total_cost( " + index + ", this.value )' onblur='update_total_cost(" + index + ",this.value )' value='" + param.val + "'/>");
+				return ("<input type='number' size='3' onblur='update_total_cost(" + index + ",this.value )' value='" + param.val + "'/>");
 			}
 		}
 			
-		function change_quan_type( idx, val ){
+		function change_quan_input( idx, val ){
 			if ( isNaN( parseInt( val ) ) ){
 				val = 0;
 			}
@@ -386,13 +386,15 @@
 				val = 0;
 			}
 			
-			if( typeof attr.cost !== "number"){
-				attr.cost = 0;
-			}
 			var quan_param ={
 				func: 1,
 				val: val
 			};
+			
+			if( typeof attr.cost !== "number"){
+				attr.cost = 0;
+			}
+			
 			product_table.bootstrapTable('updateRow', {
 				index: idx,
 				row: {
