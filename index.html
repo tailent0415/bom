@@ -413,17 +413,15 @@
 				return ("<pre onclick='change_partnum_type_static(" + index + ")'>" + param.val + "</pre>");
 			}
 			else if(param.func == 2){
-				setTimeout( $('#part_num_input').focus ,5000)
-				return ("<input list='part_list' id='part_num_input' class='part_list_style normal_font' onfocus='test()' onblur='change_partnum_type_dynamic(" + index + ",this.value,2)' onchange='change_partnum_type_dynamic(" + index + ",this.value, 1)' value=" + param.val + " ><datalist>" + part_list_options + "</datalist>");
-				//return ("<input list='part_list' class='part_list_style normal_font' onblur='change_partnum_type_dynamic(" + index + ",this.value,2)' onchange='change_partnum_type_dynamic(" + index + ",this.value, 1)' value=" + param.val + " ><datalist>" + part_list_options + "</datalist>");
+				return ("<input list='part_list' id='part_num_input' class='part_list_style normal_font' onblur='change_partnum_type_dynamic(" + index + ",this.value,2)' onchange='change_partnum_type_dynamic(" + index + ",this.value, 1)' value=" + param.val + " ><datalist>" + part_list_options + "</datalist>");
 			}
 		}
 		
-		function test(){
-			alert("5");
-		}
-		
 		function change_partnum_type_static( idx, source_val ){
+			alert( source_val.recent )
+			
+			
+			
 			var param = product_table.bootstrapTable( 'getRowByUniqueId', idx );
 			if(param.number.val == "undefined"){
 				param_val = "";
