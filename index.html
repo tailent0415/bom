@@ -232,12 +232,12 @@
 		});
 
 		$(document).ready(function(){
-			/*show tab*/
+			// show tab
 			$(".nav-tabs a").click(function(){
 				$(this).tab('show');
 			});
 			
-			/*tab response*/
+			// tab response
 		    $('.nav-tabs a').on('shown.bs.tab', function(event){
 				var x = $(event.target).text();   // active tab
 				switch(x){
@@ -339,7 +339,7 @@
 		
 		
 		
-		/* table part quantity sub function */
+		// table part quantity sub function
 		function edit_quan( param, row, index ){
 			if(param.func == 1){
 				return ("<p onclick='change_quan_input(" + index + "," + param.val + ")'>" + param.val + "</p>");
@@ -407,19 +407,16 @@
 		
 		
 		
-		/* table part number sub function */
+		// table part number sub function
 		function edit_partnum( param, row, index ){
 			if(param.func == 1){
 				return ("<pre onclick='change_partnum_type_static(" + index + ")'>" + param.val + "</pre>");
 			}
 			else if(param.func == 2){
-				return ("<input list='part_list' class='part_list_style normal_font' onload='test()' onblur='change_partnum_type_dynamic(" + index + ",this.value,2)' onchange='change_partnum_type_dynamic(" + index + ",this.value, 1)' value=" + param.val + " ><datalist>" + part_list_options + "</datalist>");
+				setTimeout( $("#part_num_input").focus ,1000)
+				return ("<input list='part_list' id='part_num_input' class='part_list_style normal_font' onblur='change_partnum_type_dynamic(" + index + ",this.value,2)' onchange='change_partnum_type_dynamic(" + index + ",this.value, 1)' value=" + param.val + " ><datalist>" + part_list_options + "</datalist>");
+				//return ("<input list='part_list' class='part_list_style normal_font' onblur='change_partnum_type_dynamic(" + index + ",this.value,2)' onchange='change_partnum_type_dynamic(" + index + ",this.value, 1)' value=" + param.val + " ><datalist>" + part_list_options + "</datalist>");
 			}
-		}
-		
-		function test(){
-			alert( "15" );
-			
 		}
 		
 		function change_partnum_type_static( idx, source_val ){
