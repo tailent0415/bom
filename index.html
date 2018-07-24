@@ -108,9 +108,11 @@
 							<br><textarea id="part_name_in" class="part_attr normal_font" name="part_name" rows="2" cols="50" wrap="hard" ></textarea>
 							<br><label for="part_format_in">規格 :</label>
 							<br><textarea id="part_format_in" class="part_attr normal_font" name="part_format" rows="2" cols="50" wrap="hard" ></textarea>
+							<br><label for="part_fignum_in">圖號 :</label><input id="part_fignum_in" class="part_attr input_container normal_font" name="part_fignum" type="text" style="width:200px" />
+							<br><label for="part_supplier_in">廠商 :</label><input id="part_supplier_in" class="part_attr input_container normal_font" name="part_supplier" type="text" style="width:100px" />
+							<br><label for="part_unit_in">單位 :</label><select id="part_unit_in" class="part_attr input_container normal_font" name="part_unit" style="width:70px" ><option value="SET">SET</option><option value="PCS">PCS</option></select>
 							<br><label for="part_remark_in">備註 : </label>
 							<br><textarea id="part_remark_in" class="part_attr normal_font" name="part_remark" rows="5" cols="50" wrap="hard" ></textarea>
-							<br><label for="part_unit_in">單位 :</label><select id="part_unit_in" class="part_attr input_container normal_font" name="part_unit" style="width:70px" ><option value="SET">SET</option><option value="PCS">PCS</option></select>
 							<br><div class="col-xs-2" style="margin-top:5px;margin-bottom:5px" >
 								<button type="button" class="col-xs-12 btn btn-primary" onclick='append_btn_res()' >新增</button>
 							</div>
@@ -673,7 +675,6 @@
 			var partnum = cnt.getElementsByClassName("numtext");
 			var part_attr = cnt.getElementsByClassName("part_attr");
 			var num_str = "";
-			alert( partnum[0].value )
 			if( partnum[0].value == "1" || partnum[0].value == "2" ){
 				for (i = 0; i < partnum.length; i++) {
 					num_str += partnum[i].value;
