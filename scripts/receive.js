@@ -18,16 +18,8 @@ function receive_db_partlist(){
 
 
 // receive database part infomation , and update interface
-function receive_part_info( source_str, currdata ){
-	var part_num = "";
-	alert( currdata );
-	if( check_part_num( 0, 15, normal_part_number( currdata.value ) ) ){
-		part_num = currdata.value;
-	}
-	else if( check_part_num( 0, 15, normal_part_number( currdata.oldvalue ) ) ){
-		part_num = currdata.oldvalue;
-	}
-	if( part_num !== "" ){
+function receive_part_info( source_str, part_num ){
+	if( check_part_num( 0, 15, normal_part_number( part_num ) ) ){
 		var attr = {
 			"state": "get_single_data",
 			"number": part_num,
@@ -35,7 +27,6 @@ function receive_part_info( source_str, currdata ){
 		};
 		receive_to_db(attr);
 	}
-	alert( part_num );
 	
 }
 
