@@ -219,7 +219,6 @@
 		</div>
     <script language="JavaScript">
 		var body = $("body");
-		var product_table = $("#part_table");
 		var ele_id;
 		var user_id = "";
 		var part_list_obj = $("#part_list");
@@ -262,7 +261,7 @@
 						break;
 					case "BOM":
 						ele_id = "menu5";
-						init_bomtable_interface( ele_id );
+						init_bomtable_interface();
 						break;
 					case "紀錄":
 						product_table = $("#record_table");
