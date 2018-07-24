@@ -350,6 +350,7 @@
 		}
 			
 		function change_quan_type( idx, val ){
+			$(this).focus();
 			if ( isNaN( parseInt( val ) ) ){
 				val = 0;
 			}
@@ -367,6 +368,7 @@
 
 		// calculate total cost and update	
 		function update_total_cost( idx, val ){
+			$(this).focus();
 			var attr = product_table.bootstrapTable('getRowByUniqueId', idx );
 			if ( isNaN( parseInt( val ) ) ){
 				val = 0;
@@ -418,6 +420,7 @@
 		}
 		
 		function change_partnum_type_static( idx, source_val ){
+			$(this).focus();
 			var param = product_table.bootstrapTable( 'getRowByUniqueId', idx );
 			if(param.number.val == "undefined"){
 				param_val = "";
@@ -438,6 +441,7 @@
 		}
 		
 		function change_partnum_type_dynamic( idx, source_val, who_call ){
+			$(this).focus();
 			alert( who_call );
 			if( check_part_num_noshow( 0, 15, normal_part_number( source_val ) ) ){
 				var data = product_table.bootstrapTable( 'getData', false );
