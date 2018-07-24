@@ -683,9 +683,6 @@
 		
 		// send product data
 		function send_product_data( num_str, state ){
-			alert( num_str )
-			alert( state )
-			
 			if( check_part_num( 0, 15, num_str ) ) {
 				var attr = get_doc_part_attr( part_attr );
 				if (attr !== false){
@@ -700,6 +697,7 @@
 						}
 						data_str += "index=" + i + "&number=" + data[i].number.val + "&quantity=" + data[i].quantity.val + ";";
 					}
+					alert(data_str);
 					attr.state = state;
 					attr.number = num_str;
 					attr.bomcode = data_str;
