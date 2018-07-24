@@ -773,6 +773,7 @@
 			}
 			attr.state = "add_inventory_quantity";
 			attr.action = action_str;
+			alert( JSON.stringify(attr) );
 			send_to_db( attr );
 		}
 
