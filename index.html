@@ -414,7 +414,7 @@
 			}
 			else if(param.func == 2){
 				setTimeout( "test()" ,10000)
-				return ("<input list='part_list' id='part_num_input' class='part_list_style normal_font' onfocus='test()' onblur='change_partnum_type_dynamic(" + index + ",this.value,2)' onchange='change_partnum_type_dynamic(" + index + ",this.value, 1)' value=" + param.val + " ><datalist>" + part_list_options + "</datalist>");
+				return ("<input list='part_list' id='part_num_input' class='part_list_style normal_font' onblur='change_partnum_type_dynamic(" + index + ",this.value,2)' onchange='change_partnum_type_dynamic(" + index + ",this.value, 1)' value=" + param.val + " ><datalist>" + part_list_options + "</datalist>");
 				//return ("<input list='part_list' class='part_list_style normal_font' onblur='change_partnum_type_dynamic(" + index + ",this.value,2)' onchange='change_partnum_type_dynamic(" + index + ",this.value, 1)' value=" + param.val + " ><datalist>" + part_list_options + "</datalist>");
 			}
 		}
