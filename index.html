@@ -418,7 +418,7 @@
 		}
 		
 		function test(){
-			alert( $(this).value )
+			alert( "15" );
 			
 		}
 		
@@ -443,7 +443,6 @@
 		}
 		
 		function change_partnum_type_dynamic( idx, source_val, who_call ){
-			alert( who_call );
 			if( check_part_num_noshow( 0, 15, normal_part_number( source_val ) ) ){
 				var data = product_table.bootstrapTable( 'getData', false );
 				var same_check = true;
