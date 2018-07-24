@@ -342,19 +342,19 @@
 		/* table part quantity sub function */
 		function edit_quan( param, row, index ){
 			if(param.func == 1){
-				return ("<p onclick='change_quan_type(" + index + "," + param.val + ", 2)'>" + param.val + "</p>");
+				return ("<p onclick='change_quan_input(" + index + "," + param.val + ")'>" + param.val + "</p>");
 			}
 			else if(param.func == 2){
-				return ("<input type='number' size='3' onchange='update_total_cost( " + index + ", this.value )' onblur='change_quan_type(" + index + ",this.value, 1)' value='" + param.val + "'/>");
+				return ("<input type='number' size='3' onchange='update_total_cost( " + index + ", this.value )' onblur='update_total_cost(" + index + ",this.value )' value='" + param.val + "'/>");
 			}
 		}
 			
-		function change_quan_type( idx, val, change_func ){
+		function change_quan_type( idx, val ){
 			if ( isNaN( parseInt( val ) ) ){
 				val = 0;
 			}
 			var quan_param ={
-				func: change_func,
+				func: 2,
 				val: val
 			};
 			product_table.bootstrapTable('updateRow', {
@@ -365,7 +365,7 @@
 			});	
 		}
 
-		/* calculate total cost and update */	
+		// calculate total cost and update	
 		function update_total_cost( idx, val ){
 			var attr = product_table.bootstrapTable('getRowByUniqueId', idx );
 			if ( isNaN( parseInt( val ) ) ){
@@ -413,7 +413,7 @@
 				return ("<pre onclick='change_partnum_type_static(" + index + ")'>" + param.val + "</pre>");
 			}
 			else if(param.func == 2){
-				return ("<input list='part_list' class='part_list_style normal_font' onchange='change_partnum_value(" + index + ",this.value)' onblur='change_partnum_type_dynamic(" + index + ",this.value)' value=" + param.val + " ><datalist>" + part_list_options + "</datalist>");
+				return ("<input list='part_list' class='part_list_style normal_font' onchange='change_partnum_type_dynamic(" + index + ",this.value)' onblur='change_partnum_type_dynamic(" + index + ",this.value)' value=" + param.val + " ><datalist>" + part_list_options + "</datalist>");
 			}
 		}
 		
@@ -438,22 +438,6 @@
 		}
 		
 		function change_partnum_type_dynamic( idx, source_val ){
-			if( check_part_num_noshow( 0, 15, normal_part_number( source_val ) ) == false ){
-				source_val = "undefined";
-			}
-			var num_param ={
-				func: 1,
-				val: source_val
-			};
-			product_table.bootstrapTable('updateRow', {
-				index: idx,
-				row: {
-					number: num_param
-				}
-			});
-		}
-
-		function change_partnum_value( idx, source_val ){
 			if( check_part_num_noshow( 0, 15, normal_part_number( source_val ) ) ){
 				var data = product_table.bootstrapTable( 'getData', false );
 				var same_check = true;
@@ -468,7 +452,6 @@
 				}
 				else{
 					alert( "請勿輸入相同品號" );
-					remove_table_row( idx );
 				}
 			}
 			var num_param ={
