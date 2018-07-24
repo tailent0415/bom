@@ -413,14 +413,12 @@
 				return ("<pre onclick='change_partnum_type_static(" + index + ")'>" + param.val + "</pre>");
 			}
 			else if(param.func == 2){
-				return ("<input list='part_list' id='part_num_input' class='part_list_style normal_font' onblur='change_partnum_type_dynamic(" + index + ",this.value,2)' onchange='change_partnum_type_dynamic(" + index + ",this.value, 1)' value=" + param.val + " ><datalist>" + part_list_options + "</datalist>");
+				return ("<input list='part_list' id='part_num_input' class='part_list_style normal_font' onblur='change_partnum_type_dynamic(" + index + ",this.value )' onchange='change_partnum_type_dynamic(" + index + ",this.value )' value=" + param.val + " ><datalist>" + part_list_options + "</datalist>");
 			}
 		}
 		
 		function change_partnum_type_static( idx, source_val ){
 			alert( source_val.recent )
-			
-			
 			
 			var param = product_table.bootstrapTable( 'getRowByUniqueId', idx );
 			if(param.number.val == "undefined"){
