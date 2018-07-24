@@ -753,15 +753,18 @@
 		
 		// send inventory variable to database
 		function send_inventory_quantity( source_str ){
+			alert( source_str );
 			var cnt = document.getElementById( ele_id );
 			var part_attr = cnt.getElementsByClassName("part_attr");
 			var attr = get_doc_part_attr( part_attr );
+			alert( JSON.stringify(attr) );
 			if( attr.number == "" || attr.varval == "" ){
 				alert( "input error" );
 				return false;
 			}
+			
 			var action_str = "";
-			switch(source_str){
+			switch( source_str ){
 				case "add":
 					action_str = "入庫";
 					break;
@@ -773,7 +776,7 @@
 			}
 			attr.state = "add_inventory_quantity";
 			attr.action = action_str;
-			alert( JSON.stringify(attr) );
+			
 			send_to_db( attr );
 		}
 
