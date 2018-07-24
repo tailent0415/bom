@@ -276,8 +276,10 @@
 		
 		// quantity change button response
 		function quan_change_btn( currdata ){
+			
 			var cnt = document.getElementById( ele_id );
 			var partnum = cnt.getElementsByClassName("part_num_list");
+			alert( partnum.value );
 			var numValue = "";
 			if( check_part_num( 0, 15, normal_part_number( currdata.value ) ) ){
 				numValue = currdata.value;
@@ -672,7 +674,7 @@
 			for (i = 0; i < partnum.length; i++) {
 				num_str += partnum[i].value;
 			}
-			send_product_data( num_str, "add_newdata" );
+			send_product_data( part_attr, num_str, "add_newdata" );
 		}
 		
 		// send a revise product data to database
@@ -680,11 +682,11 @@
 			var cnt = document.getElementById( ele_id );
 			var part_attr = cnt.getElementsByClassName("part_attr");
 			var num_str = normal_part_number( part_attr[0].value );
-			send_product_data( num_str, "replace_data" );
+			send_product_data( part_attr, num_str, "replace_data" );
 		}
 		
 		// send product data
-		function send_product_data( num_str, state ){
+		function send_product_data( part_attr, num_str, state ){
 			if( check_part_num( 0, 15, num_str ) ) {
 				var attr = get_doc_part_attr( part_attr );
 				if (attr !== false){
