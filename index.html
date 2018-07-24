@@ -276,14 +276,16 @@
 		
 		// quantity change button response
 		function quan_change_btn( currdata ){
+			var cnt = document.getElementById( ele_id );
+			var partnum = cnt.getElementsByClassName("part_num_list");
 			var numValue = "";
 			if( check_part_num( 0, 15, normal_part_number( currdata.value ) ) ){
 				numValue = currdata.value;
 			}
-			else if( check_part_num( 0, 15, normal_part_number( currdata.oldvalue ) ) ){
+			else if( check_part_num( 0, 15, normal_part_number( currdata.oldvalue ) ) ){;
 				numValue = currdata.oldvalue;
 			}
-			alert( numValue );
+			partnum.value = numValue;
 			receive_part_info('quantity', numValue );
 		}
 		
