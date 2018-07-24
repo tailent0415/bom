@@ -760,8 +760,19 @@
 				alert( "input error" );
 				return false;
 			}
+			var action_str = "";
+			switch(source_str){
+				case "add":
+					action_str = "入庫";
+					break;
+				case "sub":
+					action_str = "領用";
+					break;
+				default:
+					action_str = "不明";
+			}
 			attr.state = "add_inventory_quantity";
-			attr.action = source_str;
+			attr.action = action_str;
 			send_to_db( attr );
 		}
 
