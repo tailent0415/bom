@@ -682,13 +682,14 @@
 					num_str += partnum[i].value;
 				}
 				send_product_data( part_attr, num_str, "add_newdata" );
+				var form_cnt = document.getElementById( form_id );
+				form_cnt.reset();
+				product_table.bootstrapTable('removeAll');
 			}
 			else{
 				alert( "input has error" );
 			}
-			var form_cnt = document.getElementById( form_id );
-			form_cnt.reset();
-			product_table.bootstrapTable('removeAll');
+
 		}
 		
 		// send a revise product data to database
@@ -738,21 +739,21 @@
 				for (i = 0; i < partnum.length; i++) {
 					num_str += partnum[i].value;
 				}
-					
 				if( check_part_num( 0, 15, num_str ) ) {
 					var attr = get_doc_part_attr( part_attr );
 					if (attr !== false){
 						attr.state = "add_newdata";
 						attr.number = num_str;
 						send_to_db( attr );
+						var form_cnt = document.getElementById( form_id );
+						form_cnt.reset()
 					}
 				}
 			}
 			else{
 				alert( "input has error" );
 			}
-			var form_cnt = document.getElementById( form_id );
-			form_cnt.reset();
+;
 		}
 
 		// send replace part data to database
