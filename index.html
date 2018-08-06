@@ -73,7 +73,7 @@
 					</table>
 				</div>
 				<div id="menu1" class="tab-pane fade">
-					<div class= "tab_form">
+					<form class= "tab_form">
 						<div class="text_field">
 							<label for="part_num_in">品號 :</label><input class="numtext input_container normal_font" type=text name="part_num1" size="1" maxlength="1" placeholder="3" style="text-transform:uppercase" onchange="check_part_num(3,1,this.value)">
 							<b>－</b><input class="numtext input_container normal_font" type=text name="part_num2" size="2" maxlength="2" placeholder="AA" style="text-transform:uppercase" onchange="check_part_num(2,2,this.value)" >
@@ -93,11 +93,11 @@
 						<div class="btn_field">
 							<button type="button" class="btn btn-primary" onclick="send_new_part()" >新增</button>
 						</div>
-					</div>
+					</form>
 				</div>
 				<div id="menu2" class="tab-pane fade">
 					<div class= "tab_form">
-						<div class="text_field" >
+						<form class="text_field" >
 							<label for="part_num_in">品號 :</label><input class="numtext input_container normal_font" type=text name="part_num1" size="1" maxlength="1" placeholder="1" style="text-transform:uppercase" onchange="check_part_num(3,1,this.value)">
 							<b>－</b><input class="numtext input_container normal_font" type=text name="part_num2" size="2" maxlength="2" placeholder="AA" style="text-transform:uppercase" onchange="check_part_num(2,2,this.value)" >
 							<b>－</b><input class="numtext input_container normal_font" type=text name="part_num3" size="3" maxlength="3" placeholder="AAA" style="text-transform:uppercase" onchange="check_part_num(2,3,this.value)" >
@@ -143,7 +143,7 @@
 									</tr>
 								</thead>
 							</table>
-						</div>
+						</form>
 					</div>
 				</div>
 				<div id="menu3" class="tab-pane fade">
@@ -807,7 +807,7 @@
 
 		// google login failure report
 		function onFailure(error){
-			alert(error);
+			alert(JSON.stringify( error ) );
 		};
 		
 		
