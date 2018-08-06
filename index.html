@@ -73,7 +73,7 @@
 					</table>
 				</div>
 				<div id="menu1" class="tab-pane fade">
-					<form class= "tab_form">
+					<form class= "tab_form" id="add_part_form">
 						<div class="text_field">
 							<label for="part_num_in">品號 :</label><input class="numtext input_container normal_font" type=text name="part_num1" size="1" maxlength="1" placeholder="3" style="text-transform:uppercase" onchange="check_part_num(3,1,this.value)">
 							<b>－</b><input class="numtext input_container normal_font" type=text name="part_num2" size="2" maxlength="2" placeholder="AA" style="text-transform:uppercase" onchange="check_part_num(2,2,this.value)" >
@@ -97,7 +97,7 @@
 				</div>
 				<div id="menu2" class="tab-pane fade">
 					<div class= "tab_form">
-						<form class="text_field" >
+						<form class="text_field" id="add_product_form">
 							<label for="part_num_in">品號 :</label><input class="numtext input_container normal_font" type=text name="part_num1" size="1" maxlength="1" placeholder="1" style="text-transform:uppercase" onchange="check_part_num(3,1,this.value)">
 							<b>－</b><input class="numtext input_container normal_font" type=text name="part_num2" size="2" maxlength="2" placeholder="AA" style="text-transform:uppercase" onchange="check_part_num(2,2,this.value)" >
 							<b>－</b><input class="numtext input_container normal_font" type=text name="part_num3" size="3" maxlength="3" placeholder="AAA" style="text-transform:uppercase" onchange="check_part_num(2,3,this.value)" >
@@ -252,10 +252,12 @@
 						break;
 					case "新增料件":
 						ele_id = "menu1";
+						form_id = "add_part_form"
 						break;
 					case "新增材料":
 						product_table = $("#product_table_add"); 
 						ele_id = "menu2";
+						form_id = "add_product_form"
 						break;
 					case "修改":
 						product_table = $("#revise_table");
@@ -684,6 +686,8 @@
 			else{
 				alert( "input has error" );
 			}
+			var form_cnt = document.getElementById( form_id );
+			form_cnt.reset();
 		}
 		
 		// send a revise product data to database
@@ -746,7 +750,8 @@
 			else{
 				alert( "input has error" );
 			}
-			cnt.reset();
+			var form_cnt = document.getElementById( form_id );
+			form_cnt.reset();
 		}
 
 		// send replace part data to database
@@ -761,7 +766,6 @@
 					send_to_db( attr );
 				}
 			}
-			cnt.reset();
 		}
 
 		
