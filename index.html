@@ -239,15 +239,9 @@
 		var part_list_options = "";
 		var bom_node_array = new Array();
 		// loading event
-		
-		$(function () {
-			$('#toolbar').find('select').change(function () {
-				alert($(this).val());
-				product_table.bootstrapTable('destroy').bootstrapTable({
-					exportDataType: $(this).val()
-				});
-			});
-		})
+		product_table.bootstrapTable('destroy').bootstrapTable({
+			exportDataType: "all"
+		});
 		
 		
 		$(document).on({
