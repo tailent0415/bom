@@ -13,12 +13,12 @@
 		<link rel="stylesheet" href="/css/font-awesome.min.css">
 		<link rel="stylesheet" href="/css/style.css">
 		<!-- Bootstrap core JavaScript -->
-		<script src="/scripts/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/extensions/multiple-search/bootstrap-table-multiple-search.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-zh-TW.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-zh-TW.min.js"></script>
+		<script src="/scripts/jquery.min.js"></script>
 		<script src="/scripts/bootstrap-table-export.js"></script>
 		<script src="/scripts/tableExport.js"></script>
 		<script src="/scripts/ga.js"></script>
@@ -47,7 +47,6 @@
 							<button type="button" class="btn btn-primary mb-2" onclick="receive_db_info()" >更新數據</button>
 							<select class="form-control mb-2">
 								<option value="all">Export All</option>
-								<option value="selected">Export Selected</option>
 							</select>
 						</div>
 					</div>
@@ -238,6 +237,16 @@
 		var part_list_obj = $("#part_list");
 		var part_list_options = "";
 		var bom_node_array = new Array();
+		
+		$(function () {
+			$('#toolbar').find('select').change(function () {
+				product_table.bootstrapTable('destroy').bootstrapTable({
+					exportDataType: $(this).val()
+				});
+			});
+		})
+		
+		
 		// loading event
 		$(document).on({
 			ajaxStart: function() { body.addClass("loading"); },
