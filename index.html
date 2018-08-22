@@ -47,6 +47,7 @@
 							<button type="button" class="btn btn-primary mb-2" onclick="receive_db_info()" >更新數據</button>
 							<select class="form-control mb-2">
 								<option value="all">Export All</option>
+								<option value="selected">Export Selected</option>
 							</select>
 						</div>
 					</div>
@@ -237,9 +238,11 @@
 		var part_list_obj = $("#part_list");
 		var part_list_options = "";
 		var bom_node_array = new Array();
+		// loading event
 		
 		$(function () {
 			$('#toolbar').find('select').change(function () {
+				alert("test");
 				product_table.bootstrapTable('destroy').bootstrapTable({
 					exportDataType: $(this).val()
 				});
@@ -247,7 +250,6 @@
 		})
 		
 		
-		// loading event
 		$(document).on({
 			ajaxStart: function() { body.addClass("loading"); },
 			ajaxStop: function() { body.removeClass("loading"); }
@@ -699,14 +701,13 @@
 					num_str += partnum[i].value;
 				}
 				send_product_data( part_attr, num_str, "add_newdata" );
-				var form_cnt = document.getElementById( form_id );
-				form_cnt.reset();
-				product_table.bootstrapTable('removeAll');
 			}
 			else{
 				alert( "input has error" );
 			}
-
+			var form_cnt = document.getElementById( form_id );
+			form_cnt.reset();
+			product_table.bootstrapTable('removeAll');
 		}
 		
 		// send a revise product data to database
@@ -756,21 +757,21 @@
 				for (i = 0; i < partnum.length; i++) {
 					num_str += partnum[i].value;
 				}
+					
 				if( check_part_num( 0, 15, num_str ) ) {
 					var attr = get_doc_part_attr( part_attr );
 					if (attr !== false){
 						attr.state = "add_newdata";
 						attr.number = num_str;
 						send_to_db( attr );
-						var form_cnt = document.getElementById( form_id );
-						form_cnt.reset()
 					}
 				}
 			}
 			else{
 				alert( "input has error" );
 			}
-;
+			var form_cnt = document.getElementById( form_id );
+			form_cnt.reset();
 		}
 
 		// send replace part data to database
