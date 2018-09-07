@@ -96,12 +96,6 @@ body {
 	font-family: Monospace, Courier New, sans-serif;
 }
 
-.part_list{
-	background-color: #0f0;
-    font: 12px Monospace, Courier New, sans-serif;
-    color: red;
-}
-
 .load_modal {
 	display:    none;
 	position:   fixed;
