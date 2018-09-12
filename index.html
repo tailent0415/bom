@@ -30,6 +30,7 @@
 			<div class="login_id align_left"><p id="user_title">Guest</p></div>
 		</div>
 		<datalist id="part_list" class="normal_font"></datalist>
+		<datalist id="supplier_list" class="normal_font"></datalist>
 		<div class="table_container">
 			<ul class="nav nav-tabs">
 				<li class="active"><a data-toggle="tab" href="#home">查詢</a></li>
@@ -39,6 +40,7 @@
 				<li><a data-toggle="tab" href="#menu4">入庫&領用</a></li>
 				<li><a data-toggle="tab" href="#menu5">BOM</a></li>
 				<li><a data-toggle="tab" href="#menu6">紀錄</a></li>
+				<li><a data-toggle="tab" href="#menu7">廠商</a></li>
 			</ul>
 			<div class="tab-content">
 				<div id="home" class="tab-pane fade in active">
@@ -229,6 +231,60 @@
 						</thead>
 					</table>
 				</div>
+				<div id="menu7" class="tab-pane fade">
+					<div class="btn_field">
+						<div class="col-auto">
+							<button type="button" class="btn btn-primary" onclick="supplier_search_btn()" >查詢頁面</button>
+							<button type="button" class="btn btn-primary" onclick="supplier_revise_btn()" >修改頁面</button>
+						</div>
+					</div>
+					<div id="supplier_search_page">
+						<div id="supplier_toolbar">
+							<button type="button" class="btn btn-primary" onclick="supplier_delete_btn()" >刪除</button>
+						</div>
+						<table id="supplier_table"
+							data-toggle="table"
+							data-side-pagination="client"
+							data-pagination="true"
+							data-page-list="[5, 10, 50, 100]"
+							data-search="true"
+							data-height="525"
+							data-id-field="index"
+							data-unique-id="index"
+							data-show-columns="true"
+							data-toolbar="#supplier_toolbar"
+							data-row-style="set_table_font"
+							data-page-number="1">
+							<thead>
+								<tr>
+									<th data-field="state" data-checkbox="true"></th>
+									<th data-field="index">項次</th>
+									<th data-field="timestamp">時間</th>
+									<th data-field="number">品號</th>
+									<th data-field="name">品名</th>
+									<th data-field="action">行為</th>
+									<th data-field="quantity">數量</th>
+									<th data-field="goal">目的</th>
+									<th data-field="location">位置</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<div id="supplier_revise_page">
+						<div class= "tab_form">
+							<div class="text_field">
+								<label for="part_supplier_in">廠商 :</label><input id="part_supplier_in" class="part_attr input_container supplier_list_style normal_font" name="part_supplier" list="supplier_list" onfocus="this.oldvalue = this.value;" onchange="supplier_change_btn( this );this.oldvalue = this.value;" />
+								<br><label for="part_contact_in">聯絡人 :</label><input id="part_contact_in" class="part_attr input_container normal_font" name="part_contact" type="text" style="width:300px" placeholder="Jacky" />
+								<br><label for="part_phone_in">電話 :</label><input id="part_phone_in" class="part_attr input_container normal_font" name="part_phone" type="text" style="width:300px" placeholder="(03)598-6199 Ext.5553" />
+								<br><label for="part_address_in">地址 :</label><input id="part_address_in" class="part_attr input_container normal_font" name="part_address" type="text" style="width:300px" placeholder="湖口" />
+								<br><label for="part_url_in">網址 :</label><input id="part_url_in" class="part_attr input_container normal_font" name="part_url" type="text" style="width:300px" placeholder="http://my.scientech.com.tw/" />
+							</div>
+						</div>
+						<div>
+							<button type="button" class="btn btn-primary" onclick="supplier_info_upload()" >上傳</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
     <script language="JavaScript">
@@ -238,6 +294,11 @@
 		var user_id = "";
 		var part_list_obj = $("#part_list");
 		var part_list_options = "";
+		var supplier_list_obj = $("#supplier_list");
+		var supplier_list_options = "";
+		
+		
+		
 		var bom_node_array = new Array();
 
 		
@@ -293,10 +354,36 @@
 						ele_id = "menu6";
 						receive_record();
 						break;
+					case "廠商":
+						$("#supplier_search_page").show();
+						$("#supplier_revise_page").hide();
+						product_table = $("#supplier_table");
+						ele_id = "menu7";
+						break;
 					default:
 				}
 			});
 		});
+		
+		
+		// supplier revise button
+		function supplier_revise_btn(){
+			$("#supplier_search_page").hide();
+			$("#supplier_revise_page").show();
+		}
+		
+		// supplier search button
+		function supplier_search_btn(){
+			$("#supplier_search_page").show();
+			$("#supplier_revise_page").hide();
+		}
+		
+		function supplier_change_btn( currdata ){
+			
+			
+		}
+		
+		
 		
 		// quantity change button response
 		function quan_change_btn( currdata ){
@@ -889,6 +976,19 @@
 								part_list_obj.append( part_list_options );
 								resolve( true );
 								break;
+							case "get_all_supplier":
+								if( response[0].supplier == undefined || response.supplier == "" ){
+									return;
+								}
+								supplier_list_options = "";
+								for(var i=0; i < response.length; i++){
+									supplier_list_options += '<option value="'+response[i].supplier+'" />';
+								}
+								supplier_list_obj.empty();
+								supplier_list_obj.append( supplier_list_options );
+								resolve( true );
+								break;
+								
 							case "get_single_data":
 								if( response.name == undefined || response.name == "" ){
 									resolve( "錯誤的檔案" );
@@ -920,14 +1020,14 @@
 												data_str += '<br><label for="part_name_out">品名 :</label>';
 												data_str += '<br><textarea id="part_name_out" class="part_attr normal_font" name="part_name" rows="2" cols="50" wrap="hard" disabled="true" >' + response.name + '</textarea>';
 												data_str += '<br><label for="part_remark_out">備註 : </label><br><textarea id="part_remark_out" class="normal_font" rows="5" cols="50" wrap="hard" disabled="true" />' + response.remark + '</textarea>';
-												table_title = [ '料號', '名稱', '成本', '數量', '備註', 'Sunny註解', '庫存' ];
+												table_title = [ '品號', '名稱', '成本', '數量', '規格', '備註', '庫存' ];
 												break;
 											case '2':
 												data_str += '<br><label for="part_cost_out">總成本 :</label><input id="part_cost_out" class="input_container normal_font" style="width:100px" disabled="true" value="' + response.cost + '" />';
 												data_str += '<br><label for="part_name_out">品名 :</label>';
 												data_str += '<br><textarea id="part_name_out" class="part_attr normal_font" name="part_name" rows="2" cols="50" wrap="hard" disabled="true" >' + response.name + '</textarea>';
 												data_str += '<br><label for="part_remark_out">備註 :</label><br><textarea id="part_remark_out" class="normal_font" rows="5" cols="50" wrap="hard" disabled="true" />' + response.remark + '</textarea>';
-												table_title = [ '料號', '名稱', '成本', '數量', '廠商', '規格', '庫存'  ];
+												table_title = [ '品號', '名稱', '成本', '數量', '廠商', '規格', '庫存'  ];
 												break;
 											case '3':
 												data_str += '<br><label for="part_name_out">品名 :</label>';
@@ -964,7 +1064,7 @@
 										var style_str = "";
 										for( var i=0; i<title_len; i++ ){
 											switch( table_title[i] ){
-												case '料號':
+												case '品號':
 													style_str = "style='width:170px;text-align:center' ";
 													break;
 												case '名稱':
@@ -988,9 +1088,6 @@
 												case '備註':
 													style_str = "style='width:200px;text-align:center' ";
 													break;
-												case 'Sunny註解':
-													style_str = "style='width:80px;text-align:center' ";
-													break;
 												default:
 											}
 											title_str += "<td " + style_str + ">" + table_title[i] + "</td>";
@@ -1005,7 +1102,7 @@
 											data_str = "";
 											for( var j=0; j<title_len; j++ ){
 												switch( table_title[j] ){
-													case '料號':
+													case '品號':
 														var number_str = response.data[i].number;
 														var hnumber = "<a style='font-family: Monospace, Courier New, sans-serif' onclick = 'update_bomtable_type( this.text, -1 )' >" + number_str + "</a>";
 														res_str = hnumber;
@@ -1030,9 +1127,6 @@
 														break;
 													case '備註':
 														res_str = response.data[i].remark;
-														break;
-													case 'Sunny註解':
-														res_str = response.data[i].sunnyremark;
 														break;
 													default:
 												}
