@@ -93,7 +93,7 @@
 							<br><label for="part_format_in">規格 :</label>
 							<br><textarea id="part_format_in" class="part_attr normal_font" name="part_format" rows="2" cols="50" wrap="hard" ></textarea>
 							<br><label for="part_fignum_in">圖號 :</label><input id="part_fignum_in" class="part_attr input_container normal_font" name="part_fignum" type="text" style="width:200px" />
-							<br><label for="part_supplier_in">廠商 :</label><input id="part_supplier_in" class="part_attr input_container normal_font" name="part_supplier" type="text" style="width:100px" />
+							<br><label for="part_supplier_in">廠商 :</label><input id="part_supplier_in" class="part_attr input_container normal_font" name="part_supplier" list="supplier_list" type="text" style="width:100px" />
 							<br><label for="part_unit_in">單位 :</label><select id="part_unit_in" class="part_attr input_container normal_font" name="part_unit" style="width:70px" ><option value="SET">SET</option><option value="PCS">PCS</option></select>
 							<br><label for="part_cost_in">成本 :</label><input id="part_cost_in" class="part_attr input_container normal_font" name="part_cost" type="text" style="width:100px" />
 						</div>
@@ -116,7 +116,7 @@
 							<br><label for="part_format_in">規格 :</label>
 							<br><textarea id="part_format_in" class="part_attr normal_font" name="part_format" rows="2" cols="50" wrap="hard" ></textarea>
 							<br><label for="part_fignum_in">圖號 :</label><input id="part_fignum_in" class="part_attr input_container normal_font" name="part_fignum" type="text" style="width:200px" />
-							<br><label for="part_supplier_in">廠商 :</label><input id="part_supplier_in" class="part_attr input_container normal_font" name="part_supplier" type="text" style="width:100px" />
+							<br><label for="part_supplier_in">廠商 :</label><input id="part_supplier_in" class="part_attr input_container normal_font" name="part_supplier" list="supplier_list" type="text" style="width:100px" />
 							<br><label for="part_unit_in">單位 :</label><select id="part_unit_in" class="part_attr input_container normal_font" name="part_unit" style="width:70px" ><option value="SET">SET</option><option value="PCS">PCS</option></select>
 							<br><label for="part_remark_in">備註 : </label>
 							<br><textarea id="part_remark_in" class="part_attr normal_font" name="part_remark" rows="5" cols="50" wrap="hard" ></textarea>
@@ -259,13 +259,11 @@
 								<tr>
 									<th data-field="state" data-checkbox="true"></th>
 									<th data-field="index">項次</th>
-									<th data-field="timestamp">時間</th>
-									<th data-field="number">品號</th>
-									<th data-field="name">品名</th>
-									<th data-field="action">行為</th>
-									<th data-field="quantity">數量</th>
-									<th data-field="goal">目的</th>
-									<th data-field="location">位置</th>
+									<th data-field="supplier">廠商名稱</th>
+									<th data-field="contact">聯絡人</th>
+									<th data-field="phone">電話</th>
+									<th data-field="address">地址</th>
+									<th data-field="url">網址</th>
 								</tr>
 							</thead>
 						</table>
@@ -273,7 +271,7 @@
 					<div id="supplier_revise_page">
 						<div class= "tab_form">
 							<div class="text_field">
-								<label for="part_supplier_in">廠商 :</label><input id="part_supplier_in" class="part_attr input_container supplier_list_style normal_font" name="part_supplier" list="supplier_list" onfocus="this.oldvalue = this.value;" onchange="supplier_change_btn( this );this.oldvalue = this.value;" />
+								<label for="part_supplier_in">廠商 :</label><input id="part_supplier_in" class="part_attr input_container supplier_list_style normal_font" name="part_supplier" list="supplier_list" onchange="supplier_change_btn( this.value )" />
 								<br><label for="part_contact_in">聯絡人 :</label><input id="part_contact_in" class="part_attr input_container normal_font" name="part_contact" type="text" style="width:300px" placeholder="Jacky" />
 								<br><label for="part_phone_in">電話 :</label><input id="part_phone_in" class="part_attr input_container normal_font" name="part_phone" type="text" style="width:300px" placeholder="(03)598-6199 Ext.5553" />
 								<br><label for="part_address_in">地址 :</label><input id="part_address_in" class="part_attr input_container normal_font" name="part_address" type="text" style="width:300px" placeholder="湖口" />
@@ -296,9 +294,6 @@
 		var part_list_options = "";
 		var supplier_list_obj = $("#supplier_list");
 		var supplier_list_options = "";
-		
-		
-		
 		var bom_node_array = new Array();
 
 		
@@ -359,6 +354,7 @@
 						$("#supplier_revise_page").hide();
 						product_table = $("#supplier_table");
 						ele_id = "menu7";
+						receive_supplier_list();
 						break;
 					default:
 				}
@@ -376,14 +372,47 @@
 		function supplier_search_btn(){
 			$("#supplier_search_page").show();
 			$("#supplier_revise_page").hide();
+			receive_supplier_list();
 		}
 		
+		// supplier change name
 		function supplier_change_btn( currdata ){
-			
-			
+			if( currdata.trim() == "" ){
+				return;
+			}
+			receive_supplier_info('get_supplier_info', currdata );
 		}
 		
 		
+		// supplier upload information
+		function supplier_info_upload(){
+			var cnt = document.getElementById( ele_id );
+			var part_attr = cnt.getElementsByClassName("part_attr");
+			var attr = get_doc_part_attr( part_attr );
+			if( attr.supplier == "" ){
+				alert( "請輸入廠商名稱" );
+				return false;
+			}
+			attr.state = "replace_supplier";
+			send_to_db( attr );
+		}
+		
+		// supplier delete supplier
+		function supplier_delete_btn(){
+			var sel_target = new Array();
+			var del_index = new Array();
+			sel_target = product_table.bootstrapTable('getSelections');
+			for( var i=0; i<sel_target.length; i++ ){
+				del_index[i] = sel_target[i].index
+			}
+			var json_array = get_json_array( del_index );
+			var attr = {
+				"state": "rem_supplier_data",
+				"del_index": json_array
+			};
+			send_to_db( attr );
+			
+		}
 		
 		// quantity change button response
 		function quan_change_btn( currdata ){
@@ -748,7 +777,7 @@
 						data_str += '<br><label for="part_format_in">規格 :</label>';
 						data_str += '<br><textarea id="part_format_in" class="part_attr normal_font" name="part_format" rows="2" cols="50" wrap="hard" ></textarea>'
 						data_str += '<br><label for="part_fignum_in">圖號 :</label><input id="part_fignum_in" type="text" class="part_attr input_container normal_font" name="part_fignum" type="text" style="width:200px" />';
-						data_str += '<br><label for="part_supplier_in">廠商 :</label><input id="part_supplier_in" type="text" class="part_attr input_container" name="part_supplier" type="text" style="width:100px" />';
+						data_str += '<br><label for="part_supplier_in">廠商 :</label><input id="part_supplier_in" type="text" class="part_attr input_container" name="part_supplier" list="supplier_list" type="text" style="width:100px" />';
 						data_str += '<br><label for="part_unit_in">單位 :</label><select id="part_unit_in" type="text" class="part_attr input_container" name="part_unit" style="width:70px" ><option value="SET">SET</option><option value="PCS">PCS</option></select>';
 						data_str += '<br><label for="part_cost_in">成本 :</label><input id="part_cost_in" type="text" class="part_attr input_container" name="part_cost" type="text" style="width:100px" />';
 						data_str += '<br><label for="part_quantity_in">數量 :</label><input id="part_quantity_in" type="text" class="part_attr input_container" name="part_quantity" type="text" style="width:60px" />';
@@ -958,6 +987,7 @@
 									exportDataType: "all"
 								});
 							case "get_record_data":
+							case "get_supplier_list":
 								product_table.bootstrapTable('removeAll');
 								product_table.bootstrapTable('load', response);
 								product_table.bootstrapTable('selectPage', '1');
@@ -976,7 +1006,7 @@
 								part_list_obj.append( part_list_options );
 								resolve( true );
 								break;
-							case "get_all_supplier":
+							case "get_all_supplier_name":
 								if( response[0].supplier == undefined || response.supplier == "" ){
 									return;
 								}
@@ -988,7 +1018,34 @@
 								supplier_list_obj.append( supplier_list_options );
 								resolve( true );
 								break;
+							case "get_supplier_info":
+								if ( response == false ){
+									supplier_info_upload();
+									resolve( true );
+									break;
+								}
+								var cnt = document.getElementById( ele_id );
+								var var_val = cnt.getElementsByClassName("part_attr");
+								for (var i=0; i<var_val.length; i++){
+									switch( var_val[i].name ){
+										case "part_contact":
+											var_val[i].value = response.contact;
+											break;
+										case "part_phone":
+											var_val[i].value = response.phone;
+											break;
+										case "part_address":
+											var_val[i].value = response.address;
+											break;
+										case "part_url":
+											var_val[i].value = response.url;
+											break;
+										default:
+									}
+								}
 								
+								resolve( true );
+								break;
 							case "get_single_data":
 								if( response.name == undefined || response.name == "" ){
 									resolve( "錯誤的檔案" );
@@ -996,7 +1053,6 @@
 								}
 								switch(data.func){
 									case "bom_data":
-
 										remove_bomtable_interface();
 										
 										var cnt = document.getElementById( ele_id );
@@ -1352,9 +1408,21 @@
 								"func": 'quantity'
 							};
 							receive_to_db(attr);
+							break;
+						case "replace_supplier":
+							receive_supplier_info('get_supplier_info', data.supplier );
+							receive_db_supplier_name();
+							alert("修改完成");
+							break;
 						case "rem_record_data":
 							receive_record();
+							break;
+						case "rem_supplier_data":
+							receive_db_supplier_name();
+							receive_supplier_list();
+							break;
 						default:
+							break;
 					}
 				}
 				else{
@@ -1385,6 +1453,9 @@
 							case "replace_data":
 								resolve( response );
 								break;
+							case "replace_supplier":
+								resolve( response );
+								break;
 							case "add_inventory_quantity":
 								resolve( response );
 								break;
@@ -1392,6 +1463,9 @@
 								resolve( response );
 								break;
 							case "rem_record_data":
+								resolve( response );
+								break;
+							case "rem_supplier_data":
 								resolve( response );
 								break;
 							default:

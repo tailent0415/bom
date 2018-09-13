@@ -5,22 +5,13 @@ function receive_db_info(){
 	};
 	receive_to_db( attr );
 	receive_db_partlist();
-	receive_db_supplierlist();
-	
+	receive_db_supplier_name();
 };
-
 
 // receive database part number
 function receive_db_partlist(){
 	var attr = {
 		"state": "get_all_partnum"
-	};
-	receive_to_db(attr);
-}
-
-function receive_db_supplierlist(){
-	var attr = {
-		"state": "get_all_supplier"
 	};
 	receive_to_db(attr);
 }
@@ -35,13 +26,35 @@ function receive_part_info( source_str, part_num ){
 		};
 		receive_to_db(attr);
 	}
-	
 }
 
+// receive database supplier name
+function receive_db_supplier_name(){
+	var attr = {
+		"state": "get_all_supplier_name"
+	};
+	receive_to_db(attr);
+}
+
+// receive single supplier information
+function receive_supplier_info( source_str, supplier_name ){
+	var attr = {
+		"state": "get_supplier_info",
+		"supplier": supplier_name
+	};
+	receive_to_db(attr);
+}
+
+// receive all supplier information
+function receive_supplier_list(){
+	var attr = {
+		"state": "get_supplier_list",
+	};
+	receive_to_db( attr );
+}
 
 // receive product parameter to table row
 function receive_product_param( idx, val ){
-	
 	var attr = {
 		"state": "get_single_data",
 		"func": "product",
@@ -49,8 +62,9 @@ function receive_product_param( idx, val ){
 		"index": idx
 	};
 	receive_to_db(attr);
-
 }
+
+
 
 
 // receive record
