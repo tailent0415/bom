@@ -115,8 +115,6 @@
 							<br><textarea id="part_name_in" class="part_attr normal_font" name="part_name" rows="2" cols="50" wrap="hard" ></textarea>
 							<br><label for="part_format_in">規格 :</label>
 							<br><textarea id="part_format_in" class="part_attr normal_font" name="part_format" rows="2" cols="50" wrap="hard" ></textarea>
-							<br><label for="part_fignum_in">圖號 :</label><input id="part_fignum_in" class="part_attr input_container normal_font" name="part_fignum" type="text" style="width:200px" />
-							<br><label for="part_supplier_in">廠商 :</label><input id="part_supplier_in" class="part_attr input_container normal_font" name="part_supplier" list="supplier_list" type="text" style="width:100px" onchange="supplier_add_new_name( this.value )" />
 							<br><label for="part_unit_in">單位 :</label><select id="part_unit_in" class="part_attr input_container normal_font" name="part_unit" style="width:70px" ><option value="SET">SET</option><option value="PCS">PCS</option></select>
 							<br><label for="part_remark_in">備註 : </label>
 							<br><textarea id="part_remark_in" class="part_attr normal_font" name="part_remark" rows="5" cols="50" wrap="hard" ></textarea>
@@ -272,6 +270,7 @@
 						<div class= "tab_form">
 							<div class="text_field">
 								<label for="part_supplier_in">廠商 :</label><input id="part_supplier_in" class="part_attr input_container supplier_list_style normal_font" name="part_supplier" list="supplier_list" onchange="supplier_change_btn( this.value )" />
+								<br><label for="part_replace_name_in">廠商名稱更改 :</label><input id="part_replace_name_in" class="part_attr input_container normal_font" name="part_replace_name" type="text" style="width:300px" />
 								<br><label for="part_contact_in">聯絡人 :</label><input id="part_contact_in" class="part_attr input_container normal_font" name="part_contact" type="text" style="width:300px" placeholder="Jacky" />
 								<br><label for="part_phone_in">電話 :</label><input id="part_phone_in" class="part_attr input_container normal_font" name="part_phone" type="text" style="width:300px" placeholder="(03)598-6199 Ext.5553" />
 								<br><label for="part_address_in">地址 :</label><input id="part_address_in" class="part_attr input_container normal_font" name="part_address" type="text" style="width:300px" placeholder="湖口" />
@@ -380,7 +379,8 @@
 			if( currdata.trim() == "" ){
 				return;
 			}
-			receive_supplier_info('get_supplier_info', currdata );
+			supplier_add_new_name( currdata );
+			receive_supplier_info( currdata );
 		}
 		
 		
@@ -406,8 +406,32 @@
 				alert( "請輸入廠商名稱" );
 				return false;
 			}
+			var enable_swap = false;
+			if ( attr.replace_name.trim() !== "" ){
+				enable_swap = true;
+			}
+			else{
+				supplier_add_new_name( attr.supplier );
+			}
 			attr.state = "replace_supplier";
 			send_to_db( attr );
+
+			for (var i=0; i<part_attr.length; i++){
+				switch( part_attr[i].name ){
+					case "part_supplier":
+						if ( enable_swap ){
+							part_attr[i].value = attr.replace_name;
+						}
+						else{
+							part_attr[i].value = attr.supplier;
+						}
+						break;
+					case "part_replace_name":
+						part_attr[i].value = "";
+						break;
+					default:
+				}
+			}
 		}
 		
 		// supplier delete supplier
@@ -778,8 +802,11 @@
 				switch( num_value[0] ){
 					case "1":
 					case "2":
+						data_str += '<br><label for="part_format_in">規格 :</label>';
+						data_str += '<br><textarea id="part_format_in" class="part_attr normal_font" name="part_format" rows="2" cols="50" wrap="hard" ></textarea>'
+						data_str += '<br><label for="part_unit_in">單位 :</label><select id="part_unit_in" type="text" class="part_attr input_container normal_font" name="part_unit" style="width:70px" ><option value="SET">SET</option><option value="PCS">PCS</option></select>';
 						data_str += '<br><label for="part_remark_in">備註 : </label>';
-						data_str += '<br><textarea id="part_remark_in" class="part_attr" name="part_remark" rows="5" cols="50" wrap="hard" ></textarea>';
+						data_str += '<br><textarea id="part_remark_in" class="part_attr normal_font" name="part_remark" rows="5" cols="50" wrap="hard" ></textarea>';
 						data_str += '<br><div class="col-xs-2" style="margin-top:5px;margin-bottom:5px"><button type="button" class="col-xs-12 btn btn-primary" onclick="append_btn_res()" >新增</button></div>';
 						data_str += '<div class="col-xs-2" style="margin-top:5px;margin-bottom:5px" ><button type="button" class="col-xs-12 btn btn-primary" onclick="send_revise_product()" >上傳</button></div>';
 						data_str += '<div class="col-xs-8 align_right"><label for="part_totalcost_out">總成本 :</label><input type=text id="part_totalcost_out" class="part_attr input_container" style="width:200px;margin-top:15px" name="part_totalcost" disabled="true" value="0"></div>';
@@ -794,9 +821,9 @@
 						data_str += '<br><textarea id="part_format_in" class="part_attr normal_font" name="part_format" rows="2" cols="50" wrap="hard" ></textarea>'
 						data_str += '<br><label for="part_fignum_in">圖號 :</label><input id="part_fignum_in" type="text" class="part_attr input_container normal_font" name="part_fignum" type="text" style="width:200px" />';
 						data_str += '<br><label for="part_supplier_in">廠商 :</label><input id="part_supplier_in" type="text" class="part_attr input_container" name="part_supplier" list="supplier_list" type="text" style="width:100px" onchange="supplier_add_new_name( this.value )" />';
-						data_str += '<br><label for="part_unit_in">單位 :</label><select id="part_unit_in" type="text" class="part_attr input_container" name="part_unit" style="width:70px" ><option value="SET">SET</option><option value="PCS">PCS</option></select>';
-						data_str += '<br><label for="part_cost_in">成本 :</label><input id="part_cost_in" type="text" class="part_attr input_container" name="part_cost" type="text" style="width:100px" />';
-						data_str += '<br><label for="part_quantity_in">數量 :</label><input id="part_quantity_in" type="text" class="part_attr input_container" name="part_quantity" type="text" style="width:60px" />';
+						data_str += '<br><label for="part_unit_in">單位 :</label><select id="part_unit_in" type="text" class="part_attr input_container normal_font" name="part_unit" style="width:70px" ><option value="SET">SET</option><option value="PCS">PCS</option></select>';
+						data_str += '<br><label for="part_cost_in">成本 :</label><input id="part_cost_in" type="text" class="part_attr input_container normal_font" name="part_cost" type="text" style="width:100px" />';
+						data_str += '<br><label for="part_quantity_in">數量 :</label><input id="part_quantity_in" type="text" class="part_attr input_container normal_font" name="part_quantity" type="text" style="width:60px" />';
 						data_str += '<div class="btn_field"><button type="button" class="btn btn-primary" onclick="send_revise_part()">修改</button></div>';
 						div_second_obj.innerHTML = data_str;
 						div_first_obj.appendChild(div_second_obj);
@@ -894,13 +921,13 @@
 						attr.state = "add_newdata";
 						attr.number = num_str;
 						send_to_db( attr );
+						supplier_add_new_name( attr.supplier );
 					}
 				}
 			}
 			else{
 				alert( "input has error" );
 			}
-			alert( "test" );
 			var form_cnt = document.getElementById( form_id );
 			form_cnt.reset();
 		}
@@ -915,8 +942,10 @@
 				if( check_part_num( 0, 15, attr.number ) ){
 					attr.state = "replace_data";
 					send_to_db( attr );
+					supplier_add_new_name( attr.supplier );
 				}
 			}
+			
 		}
 
 		
@@ -974,7 +1003,6 @@
 			try{
 				var response = await receive_promise( data);
 				if( response == true ){
-					console.log( "接收完成" );
 					return true;
 				}
 				else{
@@ -1036,31 +1064,45 @@
 								resolve( true );
 								break;
 							case "get_supplier_info":
-								if ( response == false ){
-									supplier_info_upload();
-									resolve( true );
-									break;
-								}
 								var cnt = document.getElementById( ele_id );
 								var var_val = cnt.getElementsByClassName("part_attr");
 								for (var i=0; i<var_val.length; i++){
 									switch( var_val[i].name ){
 										case "part_contact":
-											var_val[i].value = response.contact;
+											if ( response.contact == undefined ){
+												var_val[i].value = "";
+											}
+											else{
+												var_val[i].value = response.contact;
+											}
 											break;
 										case "part_phone":
-											var_val[i].value = response.phone;
+											if ( response.contact == undefined ){
+												var_val[i].value = "";
+											}
+											else{
+												var_val[i].value = response.phone;
+											}
 											break;
 										case "part_address":
-											var_val[i].value = response.address;
+											if ( response.contact == undefined ){
+												var_val[i].value = "";
+											}
+											else{
+												var_val[i].value = response.address;
+											}
 											break;
 										case "part_url":
-											var_val[i].value = response.url;
+											if ( response.contact == undefined ){
+												var_val[i].value = "";
+											}
+											else{
+												var_val[i].value = response.url;
+											}
 											break;
 										default:
 									}
 								}
-								
 								resolve( true );
 								break;
 							case "get_single_data":
@@ -1407,45 +1449,18 @@
 			});
 		}
 
-
 		// send data to database
 		async function send_to_db(data){
 			data.id = user_id;
 			try{
 				var response = await send_promise(data);
 				if( response == true ){
-					switch( data.state ){
-						case "add_newdata":
-							receive_db_partlist();
-							break;
-						case "add_inventory_quantity":
-							var attr = {
-								"state": "get_single_data",
-								"number": data.number,
-								"func": 'quantity'
-							};
-							receive_to_db(attr);
-							break;
-						case "replace_supplier":
-							receive_supplier_info('get_supplier_info', data.supplier );
-							receive_db_supplier_name();
-							alert("修改完成");
-							break;
-						case "rem_record_data":
-							receive_record();
-							break;
-						case "rem_supplier_data":
-							receive_db_supplier_name();
-							receive_supplier_list();
-							break;
-						default:
-							break;
-					}
+					return true;
 				}
 				else{
-					alert( response );
+					alert( response )
+					return false;
 				}
-
 			}
 			catch(e){
 				alert( "資料庫錯誤:" + e  );
@@ -1463,29 +1478,44 @@
 					dataType: "JSON",
 					timeout: 10000,
 					success: function (response) {
-						switch( data.state ){
-							case "add_newdata":
-								resolve( response );
-								break;
-							case "replace_data":
-								resolve( response );
-								break;
-							case "replace_supplier":
-								resolve( response );
-								break;
-							case "add_inventory_quantity":
-								resolve( response );
-								break;
-							case "add_track_data":
-								resolve( response );
-								break;
-							case "rem_record_data":
-								resolve( response );
-								break;
-							case "rem_supplier_data":
-								resolve( response );
-								break;
-							default:
+						if ( response !== false ){
+							switch( data.state ){
+								case "add_newdata":
+									receive_db_partlist();
+									alert("新增完成");
+									resolve( true );
+									break;
+								case "replace_supplier":
+									receive_db_supplier_name();
+									alert("修改完成");
+									resolve( true );
+									break;
+								case "add_inventory_quantity":
+									var attr = {
+										"state": "get_single_data",
+										"number": data.number,
+										"func": 'quantity'
+									};
+									receive_to_db(attr);
+									resolve( true );
+									break;
+								case "rem_record_data":
+									receive_record();
+									alert("已移除紀錄");
+									resolve( true );
+									break;
+								case "rem_supplier_data":
+									receive_db_supplier_name();
+									receive_supplier_list();
+									alert("已移除廠商");
+									resolve( true );
+									break;
+								default:
+							}
+							
+						}
+						else{
+							resolve( response );
 						}
 					},
 					error: function (err) {
