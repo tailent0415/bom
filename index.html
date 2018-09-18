@@ -66,18 +66,18 @@
 						<thead>
 							<tr>
 								<th data-field="index">項次</th>
-								<th data-field="number">品號</th>
+								<th data-field="number" data-formatter="guide_num_format" data-events="guide_event_response">品號</th>
 								<th data-field="name">品名</th>
 								<th data-field="format">規格</th>
 								<th data-field="fignum">圖號</th>
-								<th data-field="supplier">廠商</th>
+								<th data-field="supplier" data-formatter="guide_supplier_format" data-events="guide_event_response" >廠商</th>
 								<th data-field="unit">單位</th>
 								<th data-field="stock_quantity">庫存數量</th>
 								<th data-field="cost">單位成本</th>
 								<th data-field="stock_amount">庫存金額</th>
 							</tr>
 						</thead>
-					</table>
+					</table>					
 				</div>
 				<div id="menu1" class="tab-pane fade">
 					<form class= "tab_form" id="add_part_form">
@@ -293,6 +293,7 @@
 		var part_list_options = "";
 		var supplier_list_obj = $("#supplier_list");
 		var supplier_list_options = "";
+		var tab_page_name = "";
 		var bom_node_array = new Array();
 
 		
@@ -316,39 +317,39 @@
 			
 			// tab response
 		    $('.nav-tabs a').on('shown.bs.tab', function(event){
-				var x = $(event.target).text();   // active tab
-				switch(x){
-					case "查詢":
+				tab_page_name = $(event.target).attr('href');   // active tab
+				switch( tab_page_name ){
+					case "#home":
 						product_table = $("#part_table"); 
 						ele_id = "home";
 						break;
-					case "新增料件":
+					case "#menu1":
 						ele_id = "menu1";
 						form_id = "add_part_form"
 						break;
-					case "新增成品/半成品":
+					case "#menu2":
 						product_table = $("#product_table_add"); 
 						ele_id = "menu2";
 						form_id = "add_product_form"
 						break;
-					case "修改":
+					case "#menu3":
 						product_table = $("#revise_table");
 						ele_id = "menu3";
 						init_revise_interface();
 						break;
-					case "入庫&領用":
+					case "#menu4":
 						ele_id = "menu4";
 						break;
-					case "BOM":
+					case "#menu5":
 						ele_id = "menu5";
 						init_bomtable_interface();
 						break;
-					case "紀錄":
+					case "#menu6":
 						product_table = $("#record_table");
 						ele_id = "menu6";
 						receive_record();
 						break;
-					case "廠商":
+					case "#menu7":
 						$("#supplier_search_page").show();
 						$("#supplier_revise_page").hide();
 						product_table = $("#supplier_table");
@@ -359,7 +360,104 @@
 				}
 			});
 		});
+
+		function guide_num_format( val ){
+			return ("<a class='guide_part_number' href='javascript:void(0)' >" + val + "</a>");
+		}
 		
+		function guide_supplier_format( val ){
+			return ("<a class='guide_part_supplier' href='javascript:void(0)' >" + val + "</a>");
+		}
+		
+		window.guide_event_response = {
+			'click .guide_part_number': function (e, value, row, index) {
+				chenge_page_to_bom( value );
+			},
+			'click .guide_part_supplier': function (e, value, row, index) {
+				chenge_page_to_supplier( value );
+			},
+		};
+		
+		// supplier name link to supplier table
+		async function chenge_page_to_supplier( value ) {
+			var tab_id_herf = "#menu7";
+			var tab_id_name = "menu7";
+			var obj = $("#supplier_revise_page");
+			$('.nav-tabs a[href="'+ tab_id_herf +'"]').tab('show');
+			
+			var i = 0;
+			while ( tab_page_name !== tab_id_herf && i<20 ){
+				await time_delay(200);
+				i++
+			}
+			i = 0;
+			while ( obj.is(":hidden") && i<20){
+				supplier_revise_btn();
+				await time_delay(200);
+				i++
+			}
+			
+			cnt = document.getElementById( tab_id_name );
+			var_val = cnt.getElementsByClassName("part_attr");
+			len_num = var_val.length;
+			for (var i=0; i<len_num; i++){
+				switch( var_val[i].name ){
+					case "part_supplier":
+						var_val[i].value = value;
+						break;
+					default:
+						var_val[i].value = "";
+				}
+			}
+			supplier_change_btn( value );
+			
+		};
+		
+		// part number link to bom table
+		async function chenge_page_to_bom( value ) {
+			var tab_id_herf = "#menu5";
+			var tab_id_name = "menu5";
+			var cnt = document.getElementById( tab_id_name );
+			var div_first_obj = document.getElementById( "bom" );
+			if( div_first_obj !== null ){
+				cnt.removeChild( div_first_obj );
+			}
+			$('.nav-tabs a[href="'+ tab_id_herf +'"]').tab('show');
+			var i = 0;
+			while ( tab_page_name !== tab_id_herf && i<20 ){
+				await time_delay(200);
+				i++
+			}
+			var len_num = 0;
+			var var_val;
+			i = 0;
+			while ( len_num == 0 && i<20){
+				cnt = document.getElementById( tab_id_name );
+				var_val = cnt.getElementsByClassName("part_attr");
+				len_num = var_val.length;
+				await time_delay( 200 );
+				i++;
+			}
+			for (var i=0; i<len_num; i++){
+				switch( var_val[i].name ){
+					case "part_num_list":
+						var_val[i].value = value;
+						update_bomtable_type( value, -1 );
+						break;
+					default:
+				}
+			}
+		};
+		
+		// time delay
+		function time_delay( time_millisecond ) {
+			return new Promise(resolve => {
+				setTimeout(() => {
+					resolve( true );
+				}, time_millisecond );
+			});
+		}
+
 		
 		// supplier revise button
 		function supplier_revise_btn(){
@@ -691,7 +789,7 @@
 			cnt.appendChild(div_first_obj);
 			var div_second_obj = document.createElement( "div" );
 			div_second_obj.setAttribute("class", "text_field");
-			var data_str = '<label for="part_num_in">品號 : </label><input id="part_num_in" class="input_container part_list_style normal_font" name="part_num_list" list="part_list" onchange="update_bomtable_type( this.value, -1 )"/>';
+			var data_str = '<label for="part_num_in">品號 : </label><input id="part_num_in" class="part_attr input_container part_list_style normal_font" name="part_num_list" list="part_list" onchange="update_bomtable_type( this.value, -1 )"/>';
 			div_second_obj.innerHTML = data_str;
 			div_first_obj.appendChild(div_second_obj);
 		}
