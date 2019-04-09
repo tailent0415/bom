@@ -1481,6 +1481,12 @@
 													case "part_totalcost":
 														var_val[i].value = "";
 														break;
+                                                    case "part_format":
+                                                        var_val[i].value = "";
+                                                        break;
+                                                    case "part_unit":
+                                                        var_val[i].value = "";
+                                                        break;
 													default:
 												}
 											}
@@ -1497,6 +1503,12 @@
 													case "part_totalcost":
 														var_val[i].value = response.cost;
 														break;
+                                                    case "part_format":
+                                                        var_val[i].value = response.format;
+                                                        break;
+                                                    case "part_unit":
+                                                        var_val[i].value = response.unit;
+                                                        break;
 													default:
 												};
 											}
@@ -1566,7 +1578,6 @@
 		
 		// send promise
 		function send_promise( data ){
-			
 			return new Promise(function (resolve, reject){
 				$.ajax({
 					type: "get",
@@ -1587,6 +1598,7 @@
 									alert("修改完成");
 									resolve( true );
 									break;
+									
 								case "add_inventory_quantity":
 									var attr = {
 										"state": "get_single_data",
