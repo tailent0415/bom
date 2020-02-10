@@ -200,7 +200,6 @@
                         }
                     }
                     catch(e){
-                        console.log( e )
                         table_ref.bootstrapTable('resetSearch', cmd )
                     }
                 })
@@ -232,10 +231,10 @@
 				},
 				'click .guide_part_figure': function (e, value, row, index) {
                     let words = value.split(";");
+                    console.log(value)
                     let url = ""
                     switch( e.target.innerText ){
                         case "PDF":
-                            console.log( words[0] );
                             url = words[0].match(/https[^]*/);
                             break;
                         case "SLDDRW":
@@ -259,6 +258,7 @@
                     table_ref.bootstrapTable('destroy').bootstrapTable({
                         exportDataType: "all"
                     });
+                    console.log( response )
                     table_ref.bootstrapTable('removeAll');
                     table_ref.bootstrapTable('load', response);
                     table_ref.bootstrapTable('selectPage', '1');
